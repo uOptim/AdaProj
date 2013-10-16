@@ -1,7 +1,7 @@
---with Ada.Numerics.Generic_Elementary_Functions;
+with Ada.Numerics.Generic_Elementary_Functions;
 
 package body Path is
-	--package GEF is new Ada.Numerics.Generic_Elementary_Functions(Float);
+	package GEF is new Ada.Numerics.Generic_Elementary_Functions(Float);
 
 	function Value(From: Points) return Object is
 		Obj: Object(Size => From'Length);
@@ -14,12 +14,14 @@ package body Path is
 		(Path.Values'Length - 1);
 
 	function Segment_Length(Path: in Object; Segment: in Positive)
-		return Natural is
+		return Float is
 		P1: Point := Path.Values(Segment  );
 		P2: Point := Path.Values(Segment+1);
 	begin
-		-- TODO
-		return 0;
+		return GEF.Sqrt(
+			  (P2.X - P1.X)*(P2.X - P1.X)
+			+ (P2.Y - P1.Y)*(P2.Y - P1.Y)
+		);
 	end;
 
 	function "&"(Left: in Object; Right: in Object) return Object is

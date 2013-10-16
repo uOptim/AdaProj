@@ -17,7 +17,7 @@ package Path is
 	function Value         (From: Points)    return Object;
 	function Segment_Count (Path: in Object) return Natural;
 	function Segment_Length(Path: in Object; Segment: in Positive)
-		return Natural;
+		return Float;
 	function "&"(Left: in Object; Right: in Object) return Object;
 	function "&"(Left: in Object; Right: in Point ) return Object;
 	function "&"(Left: in Point ; Right: in Object) return Object;
