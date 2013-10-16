@@ -1,3 +1,5 @@
+with Adagraph;
+
 package Path is
 	--
 	type Object is private;
@@ -6,7 +8,7 @@ package Path is
 		X, Y: Float := 0.0;
 	end record;
 
-	type Points is array(Natural range <>) of Point;
+	type Points is array (Natural range <>) of Point;
 
 	--
 	Null_Path: constant Object;

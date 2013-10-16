@@ -23,18 +23,16 @@ package body Path is
 	end;
 
 	function "&"(Left: in Object; Right: in Object) return Object is
-		Obj: Object(Left.Size + Right.Size);
+		Obj: Object(Left.Values'Length + Right.Values'Length);
 	begin
-		Obj.Values(1           .. Left.Size ) := Left.Values;
-		Obj.Values(Left.Size+1 .. Right.Size) := Right.Values;
+		Obj.Values := Left.Values & Right.Values;
 		return Obj;
 	end;
 
 	function "&"(Left: in Object; Right: in Point) return Object is
-		Obj: Object(Left.Size+1);
+		Obj: Object(Left.Values'Length+1);
 	begin
-		Obj.Values(Obj.Size)     := Right;
-		Obj.Values(1..Left.Size) := Left.Values;
+		Obj.Values := Left.Values & Right;
 		return Obj;
 	end;
 
