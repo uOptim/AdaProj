@@ -1,0 +1,11 @@
+with "./adaosc/libadaosc.gpr";
+with "./adagraph/libadagraph.gpr";
+
+project Test is
+	for Main use ("path_test.adb");
+
+	package Compiler is
+		for Default_Switches ("Ada") use ("-gnat2012");
+	end Compiler;
+
+end Test;
