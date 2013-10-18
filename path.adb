@@ -47,6 +47,8 @@ package body Path is
 
 	procedure Add(Path: in out Object; P: in Point) is
 	begin
-		Path.Values := Path.Values & P;
+		-- TODO: very ineffective!
+		-- double the array size each realloc instead when you got time
+		Path := Path & P;
 	end;
 end Path;
