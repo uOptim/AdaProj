@@ -11,7 +11,7 @@ package body Path is
 	end Value;
 
 	function Segment_Count(Path: in Object) return Natural is
-		(Path.Values'Length - 1);
+		(if Path.Values'Length > 0 then Path.Values'Length - 1 else 0);
 
 	function Segment_Length(Path: in Object; Segment: in Positive)
 		return Float is
