@@ -39,7 +39,11 @@ package body Path is
 	end;
 
 	function "&"(Left: in Point ; Right: in Object) return Object is
-		(Right & Left);
+		Obj: Object(Right.Values'Length+1);
+	begin
+		Obj.Values := Points'(0 => Left) & Right.Values;
+		return Obj;
+	end;
 
 	procedure Add(Path: in out Object; P: in Point) is
 	begin
