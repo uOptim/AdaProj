@@ -17,6 +17,8 @@ begin
 		C: Point := Point'(3.0, 3.0);
 		Epsilon : Float := 0.01;
 	begin
+		IO.Put("Testing Path manipulation functions... ");
+
 		-----------
 		if Segment_Count(P) /= 0 then raise ERROR; end if;
 
@@ -42,6 +44,8 @@ begin
 		-----------
 		P := Value((0 => A));
 		if Segment_Count(P) /= 0 then raise ERROR; end if;
+
+		IO.Put_Line("OK.");
 	end;
 
 	-- drawing tests
