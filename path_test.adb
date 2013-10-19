@@ -1,4 +1,5 @@
 with Path;
+with Adagraph;
 with Ada.Text_IO;
 
 procedure Path_Test is
@@ -50,7 +51,33 @@ begin
 
 	-- drawing tests
 	declare
+		A: Point  := Point'(100.0, 200.0);
+		B: Point  := Point'(300.0, 200.0);
+		C: Point  := Point'(300.0, 300.0);
+		P: Object := Path.Value(A & B & C & A);
+		X_Max, Y_Max, X_Char, Y_Char: Integer;
 	begin
-		null;
+		IO.Put("Testing drawing functions... ");
+
+		Adagraph.Create_Sized_Graph_Window(
+			800, 600,
+			X_max, Y_Max,
+			X_Char, Y_Char
+		);
+		Adagraph.Set_Immediate_Rendering(True);
+		Adagraph.Set_Window_Title("Robots");
+
+		while not Adagraph.Key_Hit loop
+			Adagraph.Clear_Window;
+			Path.Draw(P);
+			delay 0.2;
+		end loop;
+
+		Adagraph.Set_Immediate_Rendering(False);
+		Adagraph.Destroy_Graph_Window;
+
+		IO.Put_Line("OK.");
 	end;
+
+	IO.Put_Line("All OK. Be Happy.");
 end;

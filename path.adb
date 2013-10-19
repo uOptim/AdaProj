@@ -1,6 +1,8 @@
+with Adagraph;
 with Ada.Numerics.Generic_Elementary_Functions;
 
 package body Path is
+	use Adagraph;
 	package GEF is new Ada.Numerics.Generic_Elementary_Functions(Float);
 
 	function Value(From: Points) return Object is
@@ -51,4 +53,22 @@ package body Path is
 		-- double the array size each realloc instead when you got time
 		Path := Path & P;
 	end;
+
+	procedure Draw(Path: in Object; Color: in Color_Type := Light_Green) is
+		P_Prev: Point;
+		Len:    Count := Path.Values'Length;
+	begin
+		if Len < 2 then return; end if;
+
+		P_Prev := Path.Values(1);
+		for P of Path.Values(2..Len) loop
+			Draw_Line(
+				Integer(P_Prev.X), Integer(P_Prev.Y),
+				Integer(P.X),      Integer(P.Y),
+				Color
+			);
+			P_Prev := P;
+		end loop;
+	end;
+
 end Path;

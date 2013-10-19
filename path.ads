@@ -1,6 +1,8 @@
 with Adagraph;
 
 package Path is
+	use Adagraph;
+
 	--
 	type Object is private;
 
@@ -23,7 +25,7 @@ package Path is
 	function "&"(Left: in Point ; Right: in Object) return Object;
 
 	procedure Add(Path: in out Object; P: in Point);
-	--procedure Draw(Path: in Object; Color: in Color_Type := Light_Green);
+	procedure Draw(Path: in Object; Color: in Color_Type := Light_Green);
 
 private
 	subtype Count is Natural range 0..50;
