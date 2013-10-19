@@ -2,7 +2,7 @@ with "./adaosc/libadaosc.gpr";
 with "./adagraph/libadagraph.gpr";
 
 project Robot is
-	for Main use ("robot.adb");
+	for Main use ("main.adb");
 
 	package Compiler is
 		for Default_Switches ("Ada") use ("-gnat2012");
