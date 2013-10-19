@@ -12,6 +12,8 @@ package Path is
 
 	type Points is array (Natural range <>) of Point;
 
+	subtype Parameter is Float range 0.0..1.0;
+
 	--
 	Null_Path: constant Object;
 
@@ -26,6 +28,11 @@ package Path is
 
 	procedure Add(Path: in out Object; P: in Point);
 	procedure Draw(Path: in Object; Color: in Color_Type := Light_Green);
+
+	function X(Path: in Object; Segment: in Positive; K: Parameter)
+		return Float;
+	function Y(Path: in Object; Segment: in Positive; K: Parameter)
+		return Float;
 
 private
 	subtype Count is Natural range 0..50;
