@@ -8,11 +8,47 @@ package body Robot is
 	package IO renames Ada.Text_IO;
 
 	task body Object is
+		Pos: Position;
+		P:   Path.Object;
+
+		K: Float    := 0.0; -- Param
+		S: Positive := 1;   -- Segment number
+		X, Y: Float;        -- Position from Path.X() and Path.Y()
 	begin
 		loop
 			select
-				accept Follow(P: Path.Object) do
-					Follow_Path(P);
+				accept Follow(PP: in Path.Object) do
+					P := PP;
+					S := 1;
+					K := 0.0;
+					if Path.Segment_Count(P) > 0 then
+						X := Path.X(P, S, K);
+						Y := Path.Y(P, S, K);
+					else
+						X := 0.0;
+						Y := 0.0;
+					end if;
+					Pos := Position'(Integer(X), Integer(Y));
+				end;
+			or
+				accept Tick do
+					K := K + dK;
+					if K > 1.0 then
+						K := 0.0;
+						if S < Path.Segment_Count(P) then
+							S := S + 1;
+						else
+							S := 1;  -- restart from the begining!
+						end if;
+						IO.Put_Line("segment #" & Integer'Image(S));
+					end if;
+					X   := Path.X(P, S, K);
+					Y   := Path.Y(P, S, K);
+					Pos := Position'(Integer(X), Integer(Y));
+				end;
+			or
+				accept Get_Pos(PP: out Position) do
+					PP := Pos;
 				end;
 			or
 				accept Shutdown do
@@ -22,24 +58,5 @@ package body Robot is
 			end select;
 		end loop;
 	end;
-
-
-	procedure Follow_Path(P: Path.Object) is
-		K: Float;
-		X, Y: Float;
-	begin
-		for i in Integer range 1 .. Path.Segment_Count(P) loop
-			K := 0.0;
-			IO.Put_Line("Robot following segment #" & Integer'Image(i));
-			while K <= 1.0 loop
-				X := Path.X(P, i, K);
-				Y := Path.Y(P, i, K);
-				IO.Put_Line(Float'Image(X) & ":" & Float'Image(Y));
-				K := K + dK;
-				delay dt;
-			end loop;
-		end loop;
-	end;
-
 
 end;
