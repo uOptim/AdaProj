@@ -18,7 +18,6 @@ begin
 	Rbt1.Follow(P);
 
 	for i in 1..100 loop
-		Rbt1.Tick;
 		Rbt1.Get_Pos(Pos1);
 		IO.Put_Line(Integer'Image(Pos1.X) & ":" & Integer'Image(Pos1.Y));
 		delay 0.1;

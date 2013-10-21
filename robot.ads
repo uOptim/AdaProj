@@ -12,11 +12,10 @@ package Robot is
 		entry Follow(PP: in Path.Object);
 		entry Get_Pos(PP: out Position);
 		entry Shutdown;
-		entry Tick;
 	end;
 
 private
+	dt: Integer  := 100; -- in milliseconds
 	dK: Float    := 0.1;
-	dt: Duration := 0.05;
 
 end Robot;
