@@ -1,5 +1,4 @@
 with Path;
-with Adagraph;
 
 with Ada.Text_IO;
 with Ada.Real_Time;
