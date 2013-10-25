@@ -1,5 +1,6 @@
 with Path;
 with Robot;
+with Render;
 
 with Ada.Text_IO;
 
@@ -17,11 +18,17 @@ begin
 	P := P & Path.Point'(0.0, 0.0);
 	Rbt1.Follow(P);
 
+	Render.Init_Window;
+
 	for i in 1..100 loop
 		Rbt1.Get_Pos(Pos1);
+		Render.Clear_Window;
+		Render.Draw_Robot(Pos1);
 		IO.Put_Line(Integer'Image(Pos1.X) & ":" & Integer'Image(Pos1.Y));
 		delay 0.1;
 	end loop;
 
 	Rbt1.Shutdown;
+
+	Render.Destroy_Window;
 end;
