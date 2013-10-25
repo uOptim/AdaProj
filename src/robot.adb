@@ -25,17 +25,17 @@ package body Robot is
 			select
 				accept Follow(PP: in Path.Object) do
 					P := PP;
-					S := 1;
-					K := 0.0;
-					if Path.Segment_Count(P) > 0 then
-						X := Path.X(P, S, K);
-						Y := Path.Y(P, S, K);
-					else
-						X := 0.0;
-						Y := 0.0;
-					end if;
-					Pos := Position'(Integer(X), Integer(Y));
 				end;
+				S := 1;
+				K := 0.0;
+				if Path.Segment_Count(P) > 0 then
+					X := Path.X(P, S, K);
+					Y := Path.Y(P, S, K);
+				else
+					X := 0.0;
+					Y := 0.0;
+				end if;
+				Pos := Position'(Integer(X), Integer(Y));
 			or
 				delay until Next_Tick;
 				Tick_Time := RT.Clock;
