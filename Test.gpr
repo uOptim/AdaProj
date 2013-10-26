@@ -4,7 +4,7 @@ project Test is
 	for Main use ("path_test.adb");
 
 	for Object_Dir use "obj/";
-	for Source_Dirs use ("src/**");
+	for Source_Dirs use ("src/**", "test/**");
 
 	package Compiler is
 		for Default_Switches ("Ada") use ("-gnat2012");
