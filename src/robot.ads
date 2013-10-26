@@ -12,8 +12,9 @@ package Robot is
 		entry Shutdown;
 	end;
 
+	Illegal_Path: exception;
+
 private
-	dt: Integer  := 100; -- in milliseconds
-	dK: Float    := 0.1;
+	dt: Float := 0.100; -- in seconds
 
 end Robot;
