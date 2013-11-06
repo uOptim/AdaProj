@@ -10,7 +10,7 @@ package body Robot is
 	use type Ada.Real_Time.Time, Ada.Real_Time.Time_Span;
 
 	task body Object is
-		T:   Robot.Trajectory.Object;
+		T: Robot.Trajectory.Object;
 		Tick_Time, Next_Tick: RT.Time;
 	begin
 		Tick_Time := RT.Clock;
@@ -25,13 +25,13 @@ package body Robot is
 				Tick_Time := RT.Clock;
 				Next_Tick := Tick_Time + RT.Milliseconds(Integer(1000.0*dt));
 				Robot.Trajectory.Next(T, dt);
-			or
-				accept Get_Pos(PP: out Position) do
-					PP := Position'(
+				Render.Traffic.Update_Position(
+					1,
+					Render.Position'(
 						Integer(Robot.Trajectory.X(T)),
 						Integer(Robot.Trajectory.Y(T))
-					);
-				end;
+					)
+				);
 			or
 				accept Shutdown do
 					IO.Put_Line("Robot shuting down");

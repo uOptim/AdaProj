@@ -10,25 +10,22 @@ procedure Main is
 
 	P: Path.Object;
 	Rbt1: Robot.Object;
-	Pos1: Robot.Position;
 begin
 	P := P & Path.Point'(100.0, 100.0);
 	P := P & Path.Point'(200.0, 100.0);
-	P := P & Path.Point'(300.0, 300.0);
-	P := P & Path.Point'(0.0, 0.0);
+	P := P & Path.Point'(300.0, 500.0);
+	P := P & Path.Point'(100.0, 100.0);
+	P := P & Path.Point'(100.0, 400.0);
+	P := P & Path.Point'(200.0, 100.0);
+	P := P & Path.Point'(500.0, 500.0);
+	P := P & Path.Point'(100.0, 100.0);
 	Rbt1.Follow(P);
 
-	Render.Init_Window;
+	Render.Traffic.Start(1, 10);
 
-	for i in 1..100 loop
-		Rbt1.Get_Pos(Pos1);
-		Render.Clear_Window;
-		Render.Draw_Robot(Pos1);
-		IO.Put_Line(Integer'Image(Pos1.X) & ":" & Integer'Image(Pos1.Y));
-		delay 0.1;
-	end loop;
+	delay 10.0;
+
+	Render.Traffic.Stop;
 
 	Rbt1.Shutdown;
-
-	Render.Destroy_Window;
 end;

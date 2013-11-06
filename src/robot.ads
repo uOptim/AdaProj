@@ -1,14 +1,10 @@
 with Path;
+with Render;
 
 package Robot is
 
-	type Position is record
-		X, Y: Integer;
-	end record;
-
 	task type Object is
 		entry Follow(PP: in Path.Object);
-		entry Get_Pos(PP: out Position);
 		entry Shutdown;
 	end;
 
