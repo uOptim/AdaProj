@@ -4,10 +4,10 @@ package body Robot.Trajectory is
 	package IO renames Ada.Text_IO;
 
 	function X(T: Object) return Float is
-		(if T.Done then 0.0 else Path.X(T.Route, T.Segment, T.K));
+		(Path.X(T.Route, T.Segment, T.K));
 
 	function Y(T: Object) return Float is
-		(if T.Done then 0.0 else Path.Y(T.Route, T.Segment, T.K));
+		(Path.Y(T.Route, T.Segment, T.K));
 
 	function Route(T: Object) return Path.Object is
 		(T.Route);
@@ -22,24 +22,17 @@ package body Robot.Trajectory is
 		while T.K > 1.0 loop
 			T.K       := T.K - 1.0;
 			T.Segment := T.Segment + 1;
-			-- debug print
-			IO.Put_Line("segment #" & Positive'Image(T.Segment));
 		end loop;
 
 		if T.Segment > Path.Segment_Count(T.Route) then
-			T.Done := True;
+			T.Done    := True;
+			T.K       := 1.0;  -- in case we went too far
+			T.Segment := Path.Segment_Count(T.Route);
 		end if;
 	end;
 
 	function At_End(T: Object) return Boolean is
-		Count: Natural := Path.Segment_Count(T.Route);
-	begin
-		if Count = T.Segment and then T.K >= 1.0 then
-			return true;
-		else
-			return false;
-		end if;
-	end;
+		(T.Done);
 
 	procedure Open(T: in out Object; P: Path.Object; Speed: Float) is
 	begin
@@ -53,7 +46,8 @@ package body Robot.Trajectory is
 
 	procedure Close(T: in out Object) is
 	begin
-		Reset(T);
+		-- Reset(T);
+		T.Done := True;
 	end;
 
 	-- private functions and procedures
