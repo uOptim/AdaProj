@@ -7,12 +7,10 @@ package body Render is
 	package RT renames Ada.Real_Time;
 
 	task body Traffic is
-		dt:    Integer;
-		NBots: Positive;
-
-
 		type RobotPositions is array(Positive range <>) of Position;
 
+		dt:    Integer;
+		NBots: Positive;
 	begin
 		-- wait for start signal
 		accept Start(N: Positive; Tick_Len: Integer) do
@@ -57,6 +55,8 @@ package body Render is
 		Destroy_Window;
 	end;
 
+
+	-- private functions and procedures.
 
 	procedure Draw_Map is
 	begin

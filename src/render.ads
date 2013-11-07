@@ -7,8 +7,7 @@ package Render is
 		X, Y: Integer;
 	end record;
 
-
-	task Traffic is -- dt in milliseconds
+	task Traffic is
 		entry Stop;
 		entry Start(N: Positive; Tick_Len: Integer);
 		entry Update_Position(ID: Positive; P: Position);
