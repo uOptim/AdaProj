@@ -31,6 +31,16 @@ package body Robot.Trajectory is
 		end if;
 	end;
 
+	function At_End(T: Object) return Boolean is
+		Count: Natural := Path.Segment_Count(T.Route);
+	begin
+		if Count = T.Segment and then T.K >= 1.0 then
+			return true;
+		else
+			return false;
+		end if;
+	end;
+
 	procedure Open(T: in out Object; P: Path.Object; Speed: Float) is
 	begin
 		if Path.Segment_Count(P) = 0 then
