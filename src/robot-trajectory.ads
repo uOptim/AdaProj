@@ -8,8 +8,9 @@ private package Robot.Trajectory is
 	function Y    (T: Object) return Float;
 	function Route(T: Object) return Path.Object;
 
-	procedure Next(T: in out Object; dt: Float);
-	procedure Open(T: in out Object; P: Path.Object; Speed: Float);
+	procedure Next (T: in out Object; dt: Float);
+	procedure Open (T: in out Object; P: Path.Object; Speed: Float);
+	procedure Close(T: in out Object);
 
 private
 	type Object is tagged record

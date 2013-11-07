@@ -42,4 +42,13 @@ package body Robot.Trajectory is
 		T.Segment := 1;
 		T.Route   := P;
 	end;
+
+	procedure Close(T: in out Object) is
+	begin
+		T.K       := 0.0;
+		T.Done    := False;
+		T.Speed   := 5.0;
+		T.Segment := 1;
+		T.Route   := Path.Null_Path;
+	end;
 end;
