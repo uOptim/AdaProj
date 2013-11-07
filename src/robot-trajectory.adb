@@ -31,7 +31,7 @@ package body Robot.Trajectory is
 		end if;
 	end;
 
-	function At_End(T: Object) return Boolean is
+	function Is_Done(T: Object) return Boolean is
 		(T.Done);
 
 	procedure Open(T: in out Object; P: Path.Object; Speed: Float) is

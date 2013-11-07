@@ -21,7 +21,7 @@ package body Robot is
 					Robot.Trajectory.Open(T, PP, 400.0);
 				end;
 			or
-				when not Robot.Trajectory.At_End(T) => delay until Next_Tick;
+				when not Robot.Trajectory.Is_Done(T) => delay until Next_Tick;
 				Tick_Time := RT.Clock;
 				Next_Tick := Tick_Time + RT.Milliseconds(Integer(1000.0*dt));
 
