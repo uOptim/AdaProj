@@ -18,20 +18,17 @@ package body Robot is
 		loop
 			select
 				accept Follow(PP: in Path.Object) do
-					Robot.Trajectory.Open(T, PP, 400.0);
+					T.Open(PP, 400.0);
 				end;
 			or
-				when not Robot.Trajectory.Is_Done(T) => delay until Next_Tick;
+				when not T.Is_Done => delay until Next_Tick;
 				Tick_Time := RT.Clock;
 				Next_Tick := Tick_Time + RT.Milliseconds(Integer(1000.0*dt));
 
-				Robot.Trajectory.Next(T, dt);
+				T.Next(dt);
 				Render.Traffic.Update_Position(
 					1,
-					Render.Position'(
-						Integer(Robot.Trajectory.X(T)),
-						Integer(Robot.Trajectory.Y(T))
-					)
+					Render.Position'(Integer(T.X), Integer(T.Y))
 				);
 			or
 				accept Shutdown do
