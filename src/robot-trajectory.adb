@@ -46,14 +46,19 @@ package body Robot.Trajectory is
 		if Path.Segment_Count(P) = 0 then
 			raise Illegal_Path;
 		end if;
-		T.K       := 0.0;
-		T.Done    := False;
-		T.Speed   := Speed;
-		T.Segment := 1;
-		T.Route   := P;
+		Reset(T);
+		T.Route := P;
+		T.Speed := Speed;
 	end;
 
 	procedure Close(T: in out Object) is
+	begin
+		Reset(T);
+	end;
+
+	-- private functions and procedures
+
+	procedure Reset(T: in out Object) is
 	begin
 		T.K       := 0.0;
 		T.Done    := False;
