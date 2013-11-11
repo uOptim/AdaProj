@@ -10,7 +10,7 @@ package Site is
 
 	task Traffic is
 		entry Stop;
-		entry Start(N: Positive; Tick_Len: Integer);
+		entry Start(N: Positive; Tick_Len: Integer := 10);
 		entry Update_Position(ID: Positive; P: Position);
 	end;
 

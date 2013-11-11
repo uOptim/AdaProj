@@ -14,7 +14,7 @@ package body Site is
 		NBots: Positive;
 	begin
 		-- wait for start signal
-		accept Start(N: Positive; Tick_Len: Integer) do
+		accept Start(N: Positive; Tick_Len: Integer := 10) do
 			dt    := Tick_Len;
 			NBots := N;
 		end;
