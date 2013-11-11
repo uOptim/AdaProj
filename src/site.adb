@@ -1,9 +1,10 @@
+with Robot;
 with Adagraph;
 
 with Ada.Real_Time;
 
 
-package body Render is
+package body Site is
 	package RT renames Ada.Real_Time;
 
 	task body Traffic is
@@ -19,7 +20,7 @@ package body Render is
 		end;
 
 		-- init
-		Init_Window;
+		Init;
 
 		declare
 			use type Ada.Real_Time.Time, Ada.Real_Time.Time_Span;
@@ -42,7 +43,7 @@ package body Render is
 					end;
 				or
 					delay until Next_Tick;
-					Render.Clear_Window;
+					Site.Clear;
 					for P of Positions loop
 						Draw_Robot(P);
 					end loop;
@@ -52,13 +53,13 @@ package body Render is
 			end loop;
 		end;
 
-		Destroy_Window;
+		Destroy;
 	end;
 
 
 	-- private functions and procedures.
 
-	procedure Draw_Map is
+	procedure Draw_Site is
 	begin
 		null;
 	end;
@@ -68,19 +69,19 @@ package body Render is
 		Draw_Circle(P.X, P.Y, 10, Hue => Color);
 	end;
 
-	procedure Clear_Window is
+	procedure Clear is
 	begin
-		Adagraph.Clear_Window;
+		Clear_Window;
 	end;
 
-	procedure Init_Window is
+	procedure Init is
 	begin
 		Create_Sized_Graph_Window(800, 600, X_Max, Y_Max, X_Char, Y_Char);
 		Set_Window_Title("Robots");
-		Render.Clear_Window; -- use Renders' procedure, not Adagraph's.
+		Clear;
 	end;
 
-	procedure Destroy_Window is
+	procedure Destroy is
 	begin
 		Destroy_Graph_Window;
 	end;

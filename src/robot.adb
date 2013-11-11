@@ -1,3 +1,4 @@
+with Site;
 with Robot.Trajectory;
 
 with Ada.Text_IO;
@@ -26,9 +27,8 @@ package body Robot is
 				Next_Tick := Tick_Time + RT.Milliseconds(Integer(1000.0*dt));
 
 				T.Next(dt);
-				Render.Traffic.Update_Position(
-					1,
-					Render.Position'(Integer(T.X), Integer(T.Y))
+				Site.Traffic.Update_Position(
+					ID, Site.Position'(Integer(T.X), Integer(T.Y))
 				);
 			or
 				accept Shutdown do

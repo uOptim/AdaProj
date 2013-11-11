@@ -1,5 +1,4 @@
 with Path;
-with Render;
 
 package Robot is
 
