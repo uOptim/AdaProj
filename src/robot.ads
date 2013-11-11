@@ -11,5 +11,8 @@ package Robot is
 
 private
 	dt: Float := 0.100; -- in seconds
+	ID: Positive := 1;
+
+	function Get_ID return Positive;
 
 end Robot;

@@ -11,11 +11,13 @@ package body Robot is
 	use type Ada.Real_Time.Time, Ada.Real_Time.Time_Span;
 
 	task body Object is
+		ID: Positive := Get_ID;
 		T: Robot.Trajectory.Object;
 		Tick_Time, Next_Tick: RT.Time;
 	begin
 		Tick_Time := RT.Clock;
 		Next_Tick := Tick_Time + RT.Milliseconds(Integer(1000.0*dt));
+		IO.Put_Line("I am robot number" & Positive'Image(ID));
 		loop
 			select
 				accept Follow(PP: in Path.Object) do
@@ -32,11 +34,19 @@ package body Robot is
 				);
 			or
 				accept Shutdown do
-					IO.Put_Line("Robot shuting down");
+					IO.Put_Line("Robot" & Positive'Image(ID) & " shuting down");
 				end;
 				exit;
 			end select;
 		end loop;
+	end;
+
+
+	function Get_ID return Positive is
+		Ret: Positive := ID;
+	begin
+		ID := ID + 1;
+		return Ret;
 	end;
 
 end;
