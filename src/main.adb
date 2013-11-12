@@ -23,7 +23,7 @@ begin
 	Site.Traffic.Start(2, 10);
 
 	Rbt1.Follow(P1);
-	Rbt1.Follow(P2);
+	Rbt2.Follow(P2);
 
 	delay 10.0;
 
