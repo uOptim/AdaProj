@@ -20,7 +20,7 @@ begin
 	P2 := P2 & Path.Point'(500.0, 500.0);
 	P2 := P2 & Path.Point'(100.0, 100.0);
 
-	Site.Traffic.Start(2, 10);
+	Site.Traffic.Start(6, 2, 10);
 
 	Rbt1.Follow(P1);
 	Rbt2.Follow(P2);

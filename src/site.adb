@@ -2,6 +2,8 @@ with Robot;
 with Adagraph;
 
 with Ada.Real_Time;
+with Ada.Numerics.Elementary_Functions;
+use  Ada.Numerics.Elementary_Functions;
 
 
 package body Site is
@@ -10,16 +12,17 @@ package body Site is
 	task body Traffic is
 		type RobotPositions is array(Positive range <>) of Position;
 
-		dt:    Integer;
-		NBots: Positive;
+		dt:      Integer;
+		NBots:   Positive;
+		NPlaces: Positive;
 	begin
 		-- wait for start signal
-		accept Start(N: Positive; Tick_Len: Integer := 10) do
-			dt    := Tick_Len;
-			NBots := N;
+		accept Start(NP: Positive; N: Positive; Tick_Len: Integer := 10) do
+			dt      := Tick_Len;
+			NBots   := N;
+			NPlaces := NP;
 		end;
 
-		-- init
 		Init;
 
 		declare
@@ -43,7 +46,8 @@ package body Site is
 					end;
 				or
 					delay until Next_Tick;
-					Site.Clear;
+					Clear;
+					Draw_Site(NPlaces);
 					for P of Positions loop
 						Draw_Robot(P);
 					end loop;
@@ -59,9 +63,22 @@ package body Site is
 
 	-- private functions and procedures.
 
-	procedure Draw_Site is
+	procedure Draw_Site(NP: Positive) is
+		Radius: constant Float := 100.0;
+		Radians_Cycle : constant Float := 2.0 * Ada.Numerics.Pi;
 	begin
-		null;
+		for K in 0 .. NP-1 loop
+			Draw_Circle(
+				X_Max/2+Integer(
+					Radius*Cos(Float(K) * Radians_Cycle / Float(NP), Radians_Cycle)
+				),
+				Y_Max/2+Integer(
+					Radius*Sin(Float(K) * Radians_Cycle / Float(NP), Radians_Cycle)
+				),
+				10,
+				Hue => White
+			);
+		end loop;
 	end;
 
 	procedure Draw_Robot(P: Position; Color: Color_Type := Blue) is
