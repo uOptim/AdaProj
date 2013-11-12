@@ -27,5 +27,4 @@ private
 	procedure Draw_Site;
 	procedure Draw_Robot(P: Position; Color: Color_Type := Blue);
 
-
 end;

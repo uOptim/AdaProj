@@ -62,24 +62,6 @@ package body Path is
 	end;
 
 
-	procedure Draw(Path: in Object; Color: in Color_Type := Light_Green) is
-		P_Prev: Point;
-		Len:    Count := Path.Values'Length;
-	begin
-		if Len < 2 then return; end if;
-
-		P_Prev := Path.Values(1);
-		for P of Path.Values(2..Len) loop
-			Draw_Line(
-				Integer(P_Prev.X), Integer(P_Prev.Y),
-				Integer(P.X),      Integer(P.Y),
-				Color
-			);
-			P_Prev := P;
-		end loop;
-	end;
-
-
 	function X(Path: in Object; Segment: in Positive; K: Parameter)
 		return Float is
 		X1: Float := Path.Values(Segment  ).X;

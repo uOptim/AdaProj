@@ -27,7 +27,6 @@ package Path is
 	function "&"(Left: in Point ; Right: in Object) return Object;
 
 	procedure Add(Path: in out Object; P: in Point);
-	procedure Draw(Path: in Object; Color: in Color_Type := Light_Green);
 
 	function X(Path: in Object; Segment: in Positive; K: Parameter)
 		return Float;
