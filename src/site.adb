@@ -11,28 +11,20 @@ package body Site is
 
 	task body Traffic is
 		type RobotPositions is array(Positive range <>) of Position;
-
-		dt:      Integer;
-		NBots:   Positive;
-		NPlaces: Positive;
 	begin
 		-- wait for start signal
-		accept Start(NP: Positive; N: Positive; Tick_Len: Integer := 10) do
-			dt      := Tick_Len;
-			NBots   := N;
-			NPlaces := NP;
-		end;
-
+		accept Start;
 		Init;
 
 		declare
 			use type Ada.Real_Time.Time, Ada.Real_Time.Time_Span;
 
-			Positions: RobotPositions(1..NBots) := (others => Position'(0, 0));
 			Tick_Time, Next_Tick: RT.Time;
+			Positions: RobotPositions(1..NRobots) := (others => Position'(0, 0));
 		begin
+			-- Clock
 			Tick_Time := RT.Clock;
-			Next_Tick := Tick_Time + RT.Milliseconds(dt);
+			Next_Tick := Tick_Time + RT.Milliseconds(Tick_Len);
 
 			-- 'endless' update loop
 			loop
@@ -41,7 +33,7 @@ package body Site is
 					exit;
 				or
 					accept Update_Position(ID: Positive; P: Position) do
-						if ID > NBots then raise Invalid_ID; end if;
+						if ID > NRobots then raise Invalid_ID; end if;
 						Positions(ID) := P;
 					end;
 				or
@@ -52,7 +44,7 @@ package body Site is
 						Draw_Robot(P);
 					end loop;
 					Tick_Time := RT.Clock;
-					Next_Tick := Tick_Time + RT.Milliseconds(dt);
+					Next_Tick := Tick_Time + RT.Milliseconds(Tick_Len);
 				end select;
 			end loop;
 		end;

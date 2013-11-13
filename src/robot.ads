@@ -1,5 +1,8 @@
+with Site;
 with Path;
 
+generic
+	with package Work_Site is new Site (<>);
 package Robot is
 
 	task type Object is

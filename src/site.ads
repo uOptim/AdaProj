@@ -1,6 +1,9 @@
-with Robot;
 with Adagraph;
 
+generic
+	NPlaces:  Positive := 6;
+	NRobots:  Positive := 1;
+	Tick_Len: Positive := 10; -- in ms
 package Site is
 	use Adagraph;
 
@@ -10,7 +13,7 @@ package Site is
 
 	task Traffic is
 		entry Stop;
-		entry Start(NP: Positive; N: Positive; Tick_Len: Integer := 10);
+		entry Start;
 		entry Update_Position(ID: Positive; P: Position);
 	end;
 

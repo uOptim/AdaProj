@@ -1,4 +1,3 @@
-with Site;
 with Robot.Trajectory;
 
 with Ada.Text_IO;
@@ -8,11 +7,14 @@ with Ada.Real_Time;
 package body Robot is
 	package IO renames Ada.Text_IO;
 	package RT renames Ada.Real_Time;
+
+	package Route is new Robot.Trajectory;
+
 	use type Ada.Real_Time.Time, Ada.Real_Time.Time_Span;
 
 	task body Object is
+		T: Route.Object;
 		ID: Positive := Get_ID;
-		T: Robot.Trajectory.Object;
 		Tick_Time, Next_Tick: RT.Time;
 	begin
 		Tick_Time := RT.Clock;
@@ -29,8 +31,8 @@ package body Robot is
 				Next_Tick := Tick_Time + RT.Milliseconds(Integer(1000.0*dt));
 
 				T.Next(dt);
-				Site.Traffic.Update_Position(
-					ID, Site.Position'(Integer(T.X), Integer(T.Y))
+				Work_Site.Traffic.Update_Position(
+					ID, Work_Site.Position'(Integer(T.X), Integer(T.Y))
 				);
 			or
 				accept Shutdown do

@@ -1,6 +1,7 @@
 with Path;
 
-private package Robot.Trajectory is
+private generic
+package Robot.Trajectory is
 
 	type Object is tagged private;
 
