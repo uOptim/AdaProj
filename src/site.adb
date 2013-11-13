@@ -58,24 +58,23 @@ package body Site is
 	procedure Draw_Site(NP: Positive) is
 		Radius: constant Float := 100.0;
 		Radians_Cycle : constant Float := 2.0 * Ada.Numerics.Pi;
+
+		X, Y: Integer;
 	begin
 		for K in 0 .. NP-1 loop
-			Draw_Circle(
-				X_Max/2+Integer(
-					Radius*Cos(Float(K) * Radians_Cycle / Float(NP), Radians_Cycle)
-				),
-				Y_Max/2+Integer(
-					Radius*Sin(Float(K) * Radians_Cycle / Float(NP), Radians_Cycle)
-				),
-				10,
-				Hue => White
+			X := X_Max/2 + Integer( -- translate to center
+				Radius*Cos(Float(K) * Radians_Cycle / Float(NP), Radians_Cycle)
 			);
+			Y := Y_Max/2 + Integer( -- translate to center
+				Radius*Sin(Float(K) * Radians_Cycle / Float(NP), Radians_Cycle)
+			);
+			Draw_Circle(X, Y, 5, Hue => White, Filled => Fill);
 		end loop;
 	end;
 
 	procedure Draw_Robot(P: Position; Color: Color_Type := Blue) is
 	begin
-		Draw_Circle(P.X, P.Y, 10, Hue => Color);
+		Draw_Circle(P.X, P.Y, 10, Hue => Color, Filled => Fill);
 	end;
 
 	procedure Clear is
