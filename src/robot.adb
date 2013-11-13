@@ -44,11 +44,12 @@ package body Robot is
 	end;
 
 
-	function Get_ID return Positive is
-		Ret: Positive := ID;
+	function Get_ID return Work_Site.Bot_ID is
 	begin
+		-- Will raise range exception if the work site can't handle more bots
+		-- which is fine.
 		ID := ID + 1;
-		return Ret;
+		return ID;
 	end;
 
 end;

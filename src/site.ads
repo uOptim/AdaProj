@@ -7,6 +7,8 @@ generic
 package Site is
 	use Adagraph;
 
+	subtype Bot_ID is Positive range 1..NRobots;
+
 	type Position is record
 		X, Y: Integer;
 	end record;
@@ -14,10 +16,8 @@ package Site is
 	task Traffic is
 		entry Stop;
 		entry Start;
-		entry Update_Position(ID: Positive; P: Position);
+		entry Update_Position(ID: Bot_ID; P: Position);
 	end;
-
-	Invalid_ID: exception;
 
 private
 	-- adagraph init vars

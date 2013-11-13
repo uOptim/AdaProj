@@ -14,8 +14,10 @@ package Robot is
 
 private
 	dt: Float := 0.100; -- in seconds
-	ID: Positive := 1;
 
-	function Get_ID return Positive;
+	-- We need a 0 to make our life easier in Get_ID()
+	ID: Integer range 0 .. Work_Site.Bot_ID'Last := 0;
+
+	function Get_ID return Work_Site.Bot_ID;
 
 end Robot;

@@ -10,44 +10,50 @@ package body Site is
 	package RT renames Ada.Real_Time;
 
 	task body Traffic is
-		type RobotPositions is array(Positive range <>) of Position;
+		use type Ada.Real_Time.Time;
+		use type Ada.Real_Time.Time_Span;
+		type RobotPositions is array(Bot_ID) of Position;
+
+		Tick_Time, Next_Tick: RT.Time;
+		Positions: RobotPositions := (others => Position'(0, 0));
 	begin
 		-- wait for start signal
 		accept Start;
 		Init;
 
-		declare
-			use type Ada.Real_Time.Time, Ada.Real_Time.Time_Span;
+		--In_Places:   Places(1..NPlaces);
+		--Out_Places:  Places(1..NPlaces);
+		--Ring_Places: Places(1..NPlaces);
 
-			Tick_Time, Next_Tick: RT.Time;
-			Positions: RobotPositions(1..NRobots) := (others => Position'(0, 0));
-		begin
-			-- Clock
-			Tick_Time := RT.Clock;
-			Next_Tick := Tick_Time + RT.Milliseconds(Tick_Len);
+		-- init places
+		--for i in 1 .. NPlaces loop
+		--	null;
+		--end loop;
 
-			-- 'endless' update loop
-			loop
-				select
-					accept Stop;
-					exit;
-				or
-					accept Update_Position(ID: Positive; P: Position) do
-						if ID > NRobots then raise Invalid_ID; end if;
-						Positions(ID) := P;
-					end;
-				or
-					delay until Next_Tick;
-					Clear;
-					Draw_Site(NPlaces);
-					for P of Positions loop
-						Draw_Robot(P);
-					end loop;
-					Tick_Time := RT.Clock;
-					Next_Tick := Tick_Time + RT.Milliseconds(Tick_Len);
-				end select;
-			end loop;
-		end;
+		-- Clock
+		Tick_Time := RT.Clock;
+		Next_Tick := Tick_Time + RT.Milliseconds(Tick_Len);
+
+		-- 'endless' update loop
+		loop
+			select
+				accept Stop;
+				exit;
+			or
+				accept Update_Position(ID: Bot_ID; P: Position) do
+					Positions(ID) := P;
+				end;
+			or
+				delay until Next_Tick;
+				Clear;
+				Draw_Site(NPlaces);
+				for P of Positions loop
+					Draw_Robot(P);
+				end loop;
+				Tick_Time := RT.Clock;
+				Next_Tick := Tick_Time + RT.Milliseconds(Tick_Len);
+			end select;
+		end loop;
 
 		Destroy;
 	end;
