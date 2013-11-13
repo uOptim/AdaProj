@@ -12,6 +12,7 @@ package body Site is
 	task body Traffic is
 		use type Ada.Real_Time.Time;
 		use type Ada.Real_Time.Time_Span;
+
 		type RobotPositions is array(Bot_ID) of Position;
 
 		Tick_Time, Next_Tick: RT.Time;
@@ -19,16 +20,6 @@ package body Site is
 	begin
 		-- wait for start signal
 		accept Start;
-		Init;
-
-		--In_Places:   Places(1..NPlaces);
-		--Out_Places:  Places(1..NPlaces);
-		--Ring_Places: Places(1..NPlaces);
-
-		-- init places
-		--for i in 1 .. NPlaces loop
-		--	null;
-		--end loop;
 
 		-- Clock
 		Tick_Time := RT.Clock;
@@ -46,7 +37,7 @@ package body Site is
 			or
 				delay until Next_Tick;
 				Clear;
-				Draw_Site(NPlaces);
+				Draw_Site(In_Places, Out_Places, Ring_Places);
 				for P of Positions loop
 					Draw_Robot(P);
 				end loop;
@@ -61,20 +52,16 @@ package body Site is
 
 	-- private functions and procedures.
 
-	procedure Draw_Site(NP: Positive) is
-		Radius: constant Float := 100.0;
-		Radians_Cycle : constant Float := 2.0 * Ada.Numerics.Pi;
-
-		X, Y: Integer;
+	procedure Draw_Site(In_Places, Out_Places, Ring_Places: Places) is
 	begin
-		for K in 0 .. NP-1 loop
-			X := X_Max/2 + Integer( -- translate to center
-				Radius*Cos(Float(K) * Radians_Cycle / Float(NP), Radians_Cycle)
-			);
-			Y := Y_Max/2 + Integer( -- translate to center
-				Radius*Sin(Float(K) * Radians_Cycle / Float(NP), Radians_Cycle)
-			);
-			Draw_Circle(X, Y, 5, Hue => White, Filled => Fill);
+		for P of In_Places loop
+			Draw_Circle(P.X, P.Y, 5, Hue => Green, Filled => Fill);
+		end loop;
+		for P of Out_Places loop
+			Draw_Circle(P.X, P.Y, 5, Hue => Red, Filled => Fill);
+		end loop;
+		for P of Ring_Places loop
+			Draw_Circle(P.X, P.Y, 5, Hue => White, Filled => Fill);
 		end loop;
 	end;
 
@@ -98,5 +85,28 @@ package body Site is
 	procedure Destroy is
 	begin
 		Destroy_Graph_Window;
+	end;
+
+begin
+	-- init window
+	Init;
+
+	-- init places
+	declare
+		X, Y: Integer;
+		Radius: constant Float := 100.0;
+		Radians_Cycle: constant Float := 2.0 * Ada.Numerics.Pi;
+	begin
+		for K in 1..NPlaces loop
+			X := X_Max/2 + Integer( -- translate to center
+				Radius*Cos(Float(K)*Radians_Cycle/Float(NPlaces), Radians_Cycle)
+			);
+			Y := Y_Max/2 + Integer( -- translate to center
+				Radius*Sin(Float(K)*Radians_Cycle/Float(NPlaces), Radians_Cycle)
+			);
+			In_Places(K)   := Place'(I, False, X+20, Y);
+			Out_Places(K)  := Place'(O, False, X-20, Y);
+			Ring_Places(K) := Place'(R, False, X, Y);
+		end loop;
 	end;
 end;
