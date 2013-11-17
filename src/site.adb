@@ -53,7 +53,7 @@ package body Site is
 	-- private functions and procedures.
 
 	procedure Draw_Site is
-		P_Prev: Place(Kind => R);
+		P_Prev: Ring_Place;
 	begin
 		for P of IP loop
 			Draw_Circle(P.X, P.Y, 5, Hue => Green, Filled => Fill);
@@ -115,14 +115,14 @@ begin
 				Radius*Sin(Float(K)*Radians_Cycle/Float(NPlaces), Radians_Cycle)
 			);
 			if X > X_Max/2 then
-				IP(K) := Place'(Kind => I, Taken => False, X => X+20, Y => Y-10);
-				OP(K) := Place'(Kind => O, Taken => False, X => X+20, Y => Y+10);
+				IP(K) := In_Place'( Taken => False, X => X+20, Y => Y-10, ID => K);
+				OP(K) := Out_Place'(Taken => False, X => X+20, Y => Y+10, ID => K);
 			else
-				IP(K) := Place'(Kind => I, Taken => False, X => X-20, Y => Y-10);
-				OP(K) := Place'(Kind => O, Taken => False, X => X-20, Y => Y+10);
+				IP(K) := In_Place'( Taken => False, X => X-20, Y => Y-10, ID => K);
+				OP(K) := Out_Place'(Taken => False, X => X-20, Y => Y+10, ID => K);
 			end if;
-			RP(K) := Place'(Kind => R, Taken => False, X => X, Y => Y);
+			RP(K) := Ring_Place'(Taken => False, X => X, Y => Y, ID => K);
 		end loop;
-		Center := Place'(Kind => C, Taken => False, X => X_Max/2, Y => Y_Max/2);
+		Center := Place'(Taken => False, X => X_Max/2, Y => Y_Max/2);
 	end;
 end;

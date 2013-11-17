@@ -7,7 +7,6 @@ generic
 package Site is
 	use Adagraph;
 
-	subtype Place_ID is Positive range 1..NPlaces;
 	subtype Bot_ID is Positive range 1..NRobots;
 
 	type Position is record
@@ -21,22 +20,30 @@ package Site is
 	end;
 
 private
-	type Place_Type is (C, R, I, O);
+	subtype Place_ID is Positive range 1..NPlaces;
 
-	type Place(Kind: Place_Type) is record
+	type Place is tagged record
 		Taken: Boolean;
 		X, Y:  Integer;
 	end record;
 
-	type In_Places   is array(Place_ID) of Place(Kind => I);
-	type Out_Places  is array(Place_ID) of Place(Kind => O);
-	type Ring_Places is array(Place_ID) of Place(Kind => R);
+	type Place_With_ID is new Place with record
+		ID: Place_ID;
+	end record;
+
+	subtype In_Place   is Place_With_ID;
+	subtype Out_Place  is Place_With_ID;
+	subtype Ring_Place is Place_With_ID;
+
+	type In_Places   is array(Place_ID) of In_Place;
+	type Out_Places  is array(Place_ID) of Out_Place;
+	type Ring_Places is array(Place_ID) of Ring_Place;
 
 	-- adagraph init vars
 	X_Max, Y_Max, X_Char, Y_Char: Integer;
 
 	-- places
-	Center: Place(Kind => C);
+	Center: Place;
 	IP: In_Places;
 	OP: Out_Places;
 	RP: Ring_Places;
