@@ -7,6 +7,12 @@ generic
 package Site is
 	use Adagraph;
 
+	type Place is tagged private;
+	type Place_With_ID is private;
+	subtype In_Place   is Place_With_ID;
+	subtype Out_Place  is Place_With_ID;
+	subtype Ring_Place is Place_With_ID;
+
 	subtype Bot_ID is Positive range 1..NRobots;
 
 	type Position is record
@@ -19,6 +25,10 @@ package Site is
 		entry Update_Position(ID: Bot_ID; P: Position);
 	end;
 
+	function Next   (R: Ring_Place) return Ring_Place;
+	function Way_In (R: Ring_Place) return In_Place;
+	function Way_Out(R: Ring_Place) return Out_Place;
+
 private
 	subtype Place_ID is Positive range 1..NPlaces;
 
@@ -30,10 +40,6 @@ private
 	type Place_With_ID is new Place with record
 		ID: Place_ID;
 	end record;
-
-	subtype In_Place   is Place_With_ID;
-	subtype Out_Place  is Place_With_ID;
-	subtype Ring_Place is Place_With_ID;
 
 	type In_Places   is array(Place_ID) of In_Place;
 	type Out_Places  is array(Place_ID) of Out_Place;

@@ -49,6 +49,20 @@ package body Site is
 		Destroy;
 	end;
 
+	function Next(R: Ring_Place) return Ring_Place is
+	begin
+		if R.ID = Place_ID'Last then
+			return RP(Place_ID'First);
+		else
+			return RP(R.ID+1);
+		end if;
+	end;
+
+	function Way_In(R: Ring_Place) return In_Place is
+		(IP(R.ID));
+
+	function Way_Out(R: Ring_Place) return Out_Place is
+		(OP(R.ID));
 
 	-- private functions and procedures.
 
