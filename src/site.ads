@@ -21,27 +21,30 @@ package Site is
 	end;
 
 private
-	type Place_Type is (R, I, O);
+	type Place_Type is (C, R, I, O);
 
-	type Place is record
-		Kind:  Place_Type;
+	type Place(Kind: Place_Type) is record
 		Taken: Boolean;
 		X, Y:  Integer;
 	end record;
 
-	type Places is array(Place_ID) of Place;
+	type In_Places   is array(Place_ID) of Place(Kind => I);
+	type Out_Places  is array(Place_ID) of Place(Kind => O);
+	type Ring_Places is array(Place_ID) of Place(Kind => R);
 
 	-- adagraph init vars
 	X_Max, Y_Max, X_Char, Y_Char: Integer;
 
 	-- places
-	In_Places, Out_Places, Ring_Places: Places;
+	Center: Place(Kind => C);
+	IP: In_Places;
+	OP: Out_Places;
+	RP: Ring_Places;
 
 	procedure Init;
 	procedure Clear;
 	procedure Destroy;
 
-	procedure Draw_Site(In_Places, Out_Places, Ring_Places: Places);
+	procedure Draw_Site;
 	procedure Draw_Robot(P: Position; Color: Color_Type := Blue);
-
 end;

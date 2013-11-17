@@ -37,7 +37,7 @@ package body Site is
 			or
 				delay until Next_Tick;
 				Clear;
-				Draw_Site(In_Places, Out_Places, Ring_Places);
+				Draw_Site;
 				for P of Positions loop
 					Draw_Robot(P);
 				end loop;
@@ -52,15 +52,16 @@ package body Site is
 
 	-- private functions and procedures.
 
-	procedure Draw_Site(In_Places, Out_Places, Ring_Places: Places) is
+	procedure Draw_Site is
+		P_Prev: Place(Kind => R);
 	begin
-		for P of In_Places loop
+		for P of IP loop
 			Draw_Circle(P.X, P.Y, 5, Hue => Green, Filled => Fill);
 		end loop;
-		for P of Out_Places loop
+		for P of OP loop
 			Draw_Circle(P.X, P.Y, 5, Hue => Red, Filled => Fill);
 		end loop;
-		for P of Ring_Places loop
+		for P of RP loop
 			Draw_Circle(P.X, P.Y, 5, Hue => White, Filled => Fill);
 		end loop;
 	end;
@@ -97,16 +98,22 @@ begin
 		Radius: constant Float := 100.0;
 		Radians_Cycle: constant Float := 2.0 * Ada.Numerics.Pi;
 	begin
-		for K in 1..NPlaces loop
+		for K in Place_ID'First..Place_ID'Last loop
 			X := X_Max/2 + Integer( -- translate to center
 				Radius*Cos(Float(K)*Radians_Cycle/Float(NPlaces), Radians_Cycle)
 			);
 			Y := Y_Max/2 + Integer( -- translate to center
 				Radius*Sin(Float(K)*Radians_Cycle/Float(NPlaces), Radians_Cycle)
 			);
-			In_Places(K)   := Place'(I, False, X+20, Y);
-			Out_Places(K)  := Place'(O, False, X-20, Y);
-			Ring_Places(K) := Place'(R, False, X, Y);
+			if X > X_Max/2 then
+				IP(K) := Place'(Kind => I, Taken => False, X => X+20, Y => Y-10);
+				OP(K) := Place'(Kind => O, Taken => False, X => X+20, Y => Y+10);
+			else
+				IP(K) := Place'(Kind => I, Taken => False, X => X-20, Y => Y-10);
+				OP(K) := Place'(Kind => O, Taken => False, X => X-20, Y => Y+10);
+			end if;
+			RP(K) := Place'(Kind => R, Taken => False, X => X,    Y => Y);
 		end loop;
+		Center := Place'(Kind => C, Taken => False, X => X_Max/2, Y => Y_Max/2);
 	end;
 end;
