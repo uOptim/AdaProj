@@ -63,6 +63,15 @@ package body Site is
 		end loop;
 		for P of RP loop
 			Draw_Circle(P.X, P.Y, 5, Hue => White, Filled => Fill);
+			P_Prev := P; -- remember last drawn place
+		end loop;
+		Draw_Circle(Center.X, Center.Y, 5, Hue => White, Filled => Fill);
+		for P of RP loop
+			-- line to the center
+			Draw_Line(P.X, P.Y, Center.X, Center.Y, Hue => White);
+			-- line to the previous point
+			Draw_Line(P.X, P.Y, P_Prev.X, P_Prev.Y, Hue => White);
+			P_Prev := P; -- remember last drawn place
 		end loop;
 	end;
 
@@ -112,7 +121,7 @@ begin
 				IP(K) := Place'(Kind => I, Taken => False, X => X-20, Y => Y-10);
 				OP(K) := Place'(Kind => O, Taken => False, X => X-20, Y => Y+10);
 			end if;
-			RP(K) := Place'(Kind => R, Taken => False, X => X,    Y => Y);
+			RP(K) := Place'(Kind => R, Taken => False, X => X, Y => Y);
 		end loop;
 		Center := Place'(Kind => C, Taken => False, X => X_Max/2, Y => Y_Max/2);
 	end;
