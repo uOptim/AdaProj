@@ -9,11 +9,13 @@ package Site is
 
 	type Place is tagged private;
 	type Place_With_ID is private;
+
 	subtype In_Place   is Place_With_ID;
 	subtype Out_Place  is Place_With_ID;
 	subtype Ring_Place is Place_With_ID;
 
-	subtype Bot_ID is Positive range 1..NRobots;
+	subtype Bot_ID   is Positive range 1..NRobots;
+	subtype Place_ID is Positive range 1..NPlaces;
 
 	type Position is record
 		X, Y: Integer;
@@ -31,7 +33,6 @@ package Site is
 	function Opposite(R: Ring_Place) return Ring_Place;
 
 private
-	subtype Place_ID is Positive range 1..NPlaces;
 
 	type Place is tagged record
 		Taken: Boolean;
