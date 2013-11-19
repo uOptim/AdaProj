@@ -25,9 +25,10 @@ package Site is
 		entry Update_Position(ID: Bot_ID; P: Position);
 	end;
 
-	function Next   (R: Ring_Place) return Ring_Place;
-	function Way_In (R: Ring_Place) return In_Place;
-	function Way_Out(R: Ring_Place) return Out_Place;
+	function Next    (R: Ring_Place) return Ring_Place;
+	function Way_In  (R: Ring_Place) return In_Place;
+	function Way_Out (R: Ring_Place) return Out_Place;
+	function Opposite(R: Ring_Place) return Ring_Place;
 
 private
 	subtype Place_ID is Positive range 1..NPlaces;
