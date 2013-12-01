@@ -1,3 +1,4 @@
+with Path;
 with Adagraph;
 
 generic
@@ -32,6 +33,8 @@ package Site is
 	function Way_In  (R: Ring_Place) return In_Place;
 	function Way_Out (R: Ring_Place) return Out_Place;
 	function Opposite(R: Ring_Place) return Ring_Place;
+
+	function Make_Path(From, To: Place_ID) return Path.Object;
 
 private
 
