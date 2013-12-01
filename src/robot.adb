@@ -25,6 +25,9 @@ package body Robot is
 				accept Follow(PP: in Path.Object) do
 					T.Open(PP, 200.0);
 				end;
+				Work_Site.Traffic.Update_Position(
+					ID, Work_Site.Position'(Integer(T.X), Integer(T.Y))
+				);
 			or
 				when not T.Is_Done => delay until Next_Tick;
 				Tick_Time := RT.Clock;

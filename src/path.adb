@@ -22,13 +22,18 @@ package body Path is
 
 	function Segment_Length(Path: in Object; Segment: in Positive)
 		return Float is
-		P1: Point := Path.Values(Segment  );
-		P2: Point := Path.Values(Segment+1);
+		P1, P2: Point;
 	begin
-		return GEF.Sqrt(
-			  (P2.X - P1.X)*(P2.X - P1.X)
-			+ (P2.Y - P1.Y)*(P2.Y - P1.Y)
-		);
+		if Path.Values'Length > 1 then
+			P1 := Path.Values(Segment  );
+			P2 := Path.Values(Segment+1);
+			return GEF.Sqrt(
+				  (P2.X - P1.X)*(P2.X - P1.X)
+				+ (P2.Y - P1.Y)*(P2.Y - P1.Y)
+			);
+		else
+			return 0.0;
+		end if;
 	end;
 
 
@@ -58,27 +63,39 @@ package body Path is
 
 	procedure Add(Path: in out Object; P: in Point) is
 	begin
-		-- TODO: very ineffective!
-		-- double the array size each realloc instead when you got time
+		-- FIXME: very ineffective!
 		Path := Path & P;
 	end;
 
 
 	function X(Path: in Object; Segment: in Positive; K: Parameter)
 		return Float is
-		X1: Float := Path.Values(Segment  ).X;
-		X2: Float := Path.Values(Segment+1).X;
+		X1, X2: Float;
 	begin
-		return X1 + K*(X2-X1);
+		if Segment < Path.Values'Last then
+			X1 := Path.Values(Segment  ).X;
+			X2 := Path.Values(Segment+1).X;
+			return X1 + K*(X2-X1);
+		else
+			X1 := Path.Values(Segment).X;
+			Ada.Text_IO.Put_Line(Float'Image(X1));
+			return X1;
+		end if;
 	end;
 
 
 	function Y(Path: in Object; Segment: in Positive; K: Parameter)
 		return Float is
-		Y1: Float := Path.Values(Segment  ).Y;
-		Y2: Float := Path.Values(Segment+1).Y;
+		Y1, Y2: Float;
 	begin
-		return Y1 + K*(Y2-Y1);
+		if Segment < Path.Values'Last then
+			Y1 := Path.Values(Segment  ).Y;
+			Y2 := Path.Values(Segment+1).Y;
+			return Y1 + K*(Y2-Y1);
+		else
+			Y1 := Path.Values(Segment).Y;
+			return Y1;
+		end if;
 	end;
 
 
@@ -89,7 +106,7 @@ package body Path is
 			return;
 		end if;
 
-		for I in 1..P.Size loop
+		for I in P.Values'First..P.Values'Last loop
 			Ada.Text_IO.Put(
 				Float'Image(P.Values(I).X) &
 				Float'Image(P.Values(I).Y) &

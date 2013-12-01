@@ -36,17 +36,17 @@ package body Robot.Trajectory is
 
 	procedure Open(T: in out Object; P: Path.Object; Speed: Float) is
 	begin
-		if Path.Segment_Count(P) = 0 then
-			raise Illegal_Path;
-		end if;
 		Reset(T);
+		if Path.Segment_Count(P) = 0 then
+			T.Done := True;
+		end if;
 		T.Route := P;
 		T.Speed := Speed;
 	end;
 
 	procedure Close(T: in out Object) is
 	begin
-		-- Reset(T);
+		Reset(T);
 		T.Done := True;
 	end;
 
