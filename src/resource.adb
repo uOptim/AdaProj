@@ -1,14 +1,17 @@
-package body Semaphore is
+package body Resource is
 
 	protected body Object is
-		procedure post is
+		procedure Release is
 		begin
-			Count := Count + 1;
+			if (Taken = False) then
+				raise Illegal_Release;
+			end if;
+			Taken := False;
 		end;
 
-		entry wait when Count > 1 is
+		entry Acquire when not Taken is
 		begin
-			Count := Count - 1;
+			Taken := True;
 		end;
 	end Object;
 end;

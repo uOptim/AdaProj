@@ -1,10 +1,11 @@
-package Semaphore is
+package Resource is
 
 	protected type Object is
-		procedure post;
-		entry wait;
+		procedure Release;
+		entry Acquire;
 	private
-		Count: Natural := 0;
+		Taken: Boolean := False;
 	end Object;
 
+	Illegal_Release: exception;
 end;
