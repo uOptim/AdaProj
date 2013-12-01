@@ -163,7 +163,7 @@ begin
 	-- init places
 	declare
 		X, Y: Integer;
-		Radius: constant Float := 100.0;
+		Radius: constant Float := 200.0;
 		Radians_Cycle: constant Float := 2.0 * Ada.Numerics.Pi;
 	begin
 		for K in Place_ID'First..Place_ID'Last loop
