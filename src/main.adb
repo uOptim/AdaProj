@@ -14,21 +14,18 @@ procedure Main is
 	P1, P2    : Path.Object;
 	Rbt1, Rbt2: HexBot.Object;
 begin
-	P1 := P1 & Path.Point'(100.0, 100.0);
-	P1 := P1 & Path.Point'(200.0, 100.0);
-	P1 := P1 & Path.Point'(300.0, 500.0);
-	P1 := P1 & Path.Point'(100.0, 100.0);
-	P2 := P2 & Path.Point'(100.0, 400.0);
-	P2 := P2 & Path.Point'(200.0, 100.0);
-	P2 := P2 & Path.Point'(500.0, 500.0);
-	P2 := P2 & Path.Point'(100.0, 100.0);
+	P1 := HexSite.Make_Path(1, 3);
+	P2 := HexSite.Make_Path(2, 5);
+
+	Path.Print(P1);
+	Path.Print(P2);
 
 	HexSite.Traffic.Start;
 
 	Rbt1.Follow(P1);
 	Rbt2.Follow(P2);
 
-	delay 10.0;
+	delay 5.0;
 
 	HexSite.Traffic.Stop;
 
