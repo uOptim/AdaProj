@@ -89,24 +89,29 @@ package body Site is
 	begin
 		Path.Add(P, Path.Point'(Float(C.X), Float(C.Y)));
 
-		if From < To then
-			if ((To - From) <= Place_ID'Last/2) then
-				F := Next'Access;
-			else
-				F := Prev'Access;
+		if To = Opposite(RP(From)).ID then
+			Path.Add(P, Path.Point'(Float(Center.X), Float(Center.Y)));
+			Path.Add(P, Path.Point'(Float(RP(To).X), Float(RP(To).Y)));
+		else
+			if From < To then
+				if ((To - From) <= Place_ID'Last/2) then
+					F := Next'Access;
+				else
+					F := Prev'Access;
+				end if;
+			elsif From > To then
+				if ((From - To) >= Place_ID'Last/2) then
+					F := Next'Access;
+				else
+					F := Prev'Access;
+				end if;
 			end if;
-		elsif From > To then
-			if ((From - To) >= Place_ID'Last/2) then
-				F := Next'Access;
-			else
-				F := Prev'Access;
-			end if;
-		end if;
 
-		while C.ID /= To loop
-			C := F(C);
-			Path.Add(P, Path.Point'(Float(C.X), Float(C.Y)));
-		end loop;
+			while C.ID /= To loop
+				C := F(C);
+				Path.Add(P, Path.Point'(Float(C.X), Float(C.Y)));
+			end loop;
+		end if;
 
 		return P;
 	end;
