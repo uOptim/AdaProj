@@ -85,15 +85,13 @@ package body Site is
 	begin
 		Path.Add(P, Path.Point'(Float(C.X), Float(C.Y)));
 
-		if From = To then return P; end if;
-
 		if From < To then
 			if ((To - From) <= Place_ID'Last/2) then
 				F := Next'Access;
 			else
 				F := Prev'Access;
 			end if;
-		else
+		elsif From > To then
 			if ((From - To) >= Place_ID'Last/2) then
 				F := Next'Access;
 			else
