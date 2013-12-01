@@ -23,13 +23,12 @@ package body Robot is
 		loop
 			select
 				accept Follow(PP: in Path.Object) do
-					T.Open(PP, 400.0);
+					T.Open(PP, 200.0);
 				end;
 			or
 				when not T.Is_Done => delay until Next_Tick;
 				Tick_Time := RT.Clock;
 				Next_Tick := Tick_Time + RT.Milliseconds(Integer(1000.0*dt));
-
 				T.Next(dt);
 				Work_Site.Traffic.Update_Position(
 					ID, Work_Site.Position'(Integer(T.X), Integer(T.Y))

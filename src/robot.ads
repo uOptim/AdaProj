@@ -13,7 +13,7 @@ package Robot is
 	Illegal_Path: exception;
 
 private
-	dt: Float := 0.100; -- in seconds
+	dt: Float := 0.01; -- in seconds
 
 	-- We need a 0 to make our life easier in Get_ID()
 	ID: Integer range 0 .. Work_Site.Bot_ID'Last := 0;
