@@ -68,7 +68,11 @@ package body Site is
 	end;
 
 	function Opposite(R: Ring_Place) return Ring_Place is
-		(RP(R.ID+NPlaces/2-NPlaces));
+		Tmp: Integer := R.ID + NPlaces/2;
+	begin
+		if (R.ID > NPlaces/2) then Tmp := Tmp - NPlaces; end if;
+		return RP(Place_ID(Tmp));
+	end;
 
 	function Way_In(R: Ring_Place) return In_Place is
 		(IP(R.ID));
