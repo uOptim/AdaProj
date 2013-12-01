@@ -14,12 +14,15 @@ package body Robot is
 
 	task body Object is
 		T: Route.Object;
-		ID: Positive := Get_ID;
+		ID: Work_Site.Bot_ID;
 		Tick_Time, Next_Tick: RT.Time;
 	begin
+		ID_Distributor.Get_ID(ID);
+		IO.Put_Line("I am robot number" & Positive'Image(ID));
+
 		Tick_Time := RT.Clock;
 		Next_Tick := Tick_Time + RT.Milliseconds(Integer(1000.0*dt));
-		IO.Put_Line("I am robot number" & Positive'Image(ID));
+
 		loop
 			select
 				accept Follow(PP: in Path.Object) do
@@ -46,12 +49,14 @@ package body Robot is
 	end;
 
 
-	function Get_ID return Work_Site.Bot_ID is
-	begin
-		-- Will raise range exception if the work site can't handle more bots
-		-- which is fine.
-		ID := ID + 1;
-		return ID;
-	end;
+	protected body ID_Distributor is
+		procedure Get_ID (Bot_ID: out Work_Site.Bot_ID) is
+		begin
+			-- Will raise range exception if the work site can't handle more bots
+			-- which is fine.
+			ID := ID + 1;
+			Bot_ID := ID;
+		end;
+	end ID_Distributor;
 
 end;

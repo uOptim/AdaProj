@@ -10,14 +10,14 @@ package Robot is
 		entry Shutdown;
 	end;
 
-	Illegal_Path: exception;
-
 private
 	dt: Float := 0.01; -- in seconds
 
-	-- We need a 0 to make our life easier in Get_ID()
-	ID: Integer range 0 .. Work_Site.Bot_ID'Last := 0;
-
-	function Get_ID return Work_Site.Bot_ID;
+	protected ID_Distributor is 
+		procedure Get_ID(Bot_ID: out Work_Site.Bot_ID);
+	private
+		-- We need a 0 to make our life easier in Get_ID()
+		ID: Integer range 0 .. Work_Site.Bot_ID'Last := 0;
+	end ID_Distributor;
 
 end Robot;
