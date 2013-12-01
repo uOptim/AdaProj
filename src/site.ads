@@ -28,6 +28,7 @@ package Site is
 	end;
 
 	function Next    (R: Ring_Place) return Ring_Place;
+	function Prev    (R: Ring_Place) return Ring_Place;
 	function Way_In  (R: Ring_Place) return In_Place;
 	function Way_Out (R: Ring_Place) return Out_Place;
 	function Opposite(R: Ring_Place) return Ring_Place;

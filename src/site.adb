@@ -58,6 +58,15 @@ package body Site is
 		end if;
 	end;
 
+	function Prev(R: Ring_Place) return Ring_Place is
+	begin
+		if R.ID = Place_ID'First then
+			return RP(Place_ID'Last);
+		else
+			return RP(R.ID-1);
+		end if;
+	end;
+
 	function Opposite(R: Ring_Place) return Ring_Place is
 		(RP(R.ID+NPlaces/2-NPlaces));
 
