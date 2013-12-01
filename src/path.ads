@@ -33,6 +33,8 @@ package Path is
 	function Y(Path: in Object; Segment: in Positive; K: Parameter)
 		return Float;
 
+	procedure Print(P: Object);
+
 private
 	subtype Count is Natural range 0..50;
 

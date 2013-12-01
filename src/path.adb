@@ -1,6 +1,8 @@
 with Adagraph;
 with Ada.Numerics.Generic_Elementary_Functions;
 
+with Ada.Text_IO;
+
 package body Path is
 	use Adagraph;
 	package GEF is new Ada.Numerics.Generic_Elementary_Functions(Float);
@@ -77,6 +79,24 @@ package body Path is
 		Y2: Float := Path.Values(Segment+1).Y;
 	begin
 		return Y1 + K*(Y2-Y1);
+	end;
+
+
+	procedure Print(P: Object) is
+	begin
+		if P = Null_Path then
+			Ada.Text_IO.Put_Line("NULL PATH!");
+			return;
+		end if;
+
+		for I in 1..P.Size loop
+			Ada.Text_IO.Put(
+				Float'Image(P.Values(I).X) &
+				Float'Image(P.Values(I).Y) &
+				","
+			);
+		end loop;
+		Ada.Text_IO.Put_Line("");
 	end;
 
 end Path;
