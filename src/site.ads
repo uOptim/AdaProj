@@ -37,7 +37,6 @@ package Site is
 private
 
 	type Place is tagged record
-		Taken: Boolean;
 		X, Y:  Integer;
 	end record;
 

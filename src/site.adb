@@ -137,7 +137,7 @@ begin
 		Radius: constant Float := 200.0;
 		Radians_Cycle: constant Float := 2.0 * Ada.Numerics.Pi;
 	begin
-		for K in Place_ID'First..Place_ID'Last loop
+		for K in Place_ID'Range loop
 			X := X_Max/2 + Integer( -- translate to center
 				Radius*Cos(Float(K)*Radians_Cycle/Float(NPlaces), Radians_Cycle)
 			);
@@ -145,14 +145,14 @@ begin
 				Radius*Sin(Float(K)*Radians_Cycle/Float(NPlaces), Radians_Cycle)
 			);
 			if X > X_Max/2 then
-				IP(K) := In_Place'( Taken => False, X => X+20, Y => Y-10, ID => K);
-				OP(K) := Out_Place'(Taken => False, X => X+20, Y => Y+10, ID => K);
+				IP(K) := In_Place'(X => X+20, Y => Y-10, ID => K);
+				OP(K) := Out_Place'(X => X+20, Y => Y+10, ID => K);
 			else
-				IP(K) := In_Place'( Taken => False, X => X-20, Y => Y-10, ID => K);
-				OP(K) := Out_Place'(Taken => False, X => X-20, Y => Y+10, ID => K);
+				IP(K) := In_Place'(X => X-20, Y => Y-10, ID => K);
+				OP(K) := Out_Place'(X => X-20, Y => Y+10, ID => K);
 			end if;
-			RP(K) := Ring_Place'(Taken => False, X => X, Y => Y, ID => K);
+			RP(K) := Ring_Place'(X => X, Y => Y, ID => K);
 		end loop;
-		Center := Place'(Taken => False, X => X_Max/2, Y => Y_Max/2);
+		Center := Place'(X => X_Max/2, Y => Y_Max/2);
 	end;
 end;
