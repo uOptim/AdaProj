@@ -1,7 +1,8 @@
-with Site;
-with Path;
 with Robot;
-with Generic_Resource_Pool;
+with Path;
+with Site;
+with Site.Places_Path;
+--with Generic_Resource_Pool;
 
 with Ada.Text_IO;
 
@@ -9,17 +10,17 @@ procedure Main is
 	use Path;
 	package IO renames Ada.Text_IO;
 
-	package HexSite is new Site(NPlaces => 6, NRobots => 4);
-	package HexBot  is new Robot(Work_Site => HexSite);
-	package Pool    is new Generic_Resource_Pool(Size => 6);
+	package HexSite    is new Site(NPlaces => 6, NRobots => 4);
+	package HexBot     is new Robot(Work_Site => HexSite);
+	package Path_Maker is new HexSite.Places_Path;
 
 	P1, P2, P3, P4        : Path.Object;
 	Rbt1, Rbt2, Rbt3, Rbt4: HexBot.Object;
 begin
-	P1 := HexSite.Make_Path(5, 1);
-	P2 := HexSite.Make_Path(3, 6);
-	P3 := HexSite.Make_Path(5, 2);
-	P4 := HexSite.Make_Path(4, 6);
+	P1 := Path_Maker.Get_Path(Path_Maker.Open(5, 1));
+	P2 := Path_Maker.Get_Path(Path_Maker.Open(3, 6));
+	P3 := Path_Maker.Get_Path(Path_Maker.Open(5, 2));
+	P4 := Path_Maker.Get_Path(Path_Maker.Open(4, 6));
 
 	HexSite.Traffic.Start;
 

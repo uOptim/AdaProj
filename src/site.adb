@@ -80,42 +80,6 @@ package body Site is
 	function Way_Out(R: Ring_Place) return Out_Place is
 		(OP(R.ID));
 
-	function Make_Path(From, To: Place_ID) return Path.Object is
-		type Next_Place_Func is access
-			function(R: Ring_Place) return Ring_Place;
-		C: Ring_Place  := RP(From);
-		P: Path.Object := Path.Null_Path;
-		F: Next_Place_Func;
-	begin
-		Path.Add(P, Path.Point'(Float(C.X), Float(C.Y)));
-
-		if To = Opposite(RP(From)).ID then
-			Path.Add(P, Path.Point'(Float(Center.X), Float(Center.Y)));
-			Path.Add(P, Path.Point'(Float(RP(To).X), Float(RP(To).Y)));
-		else
-			if From < To then
-				if ((To - From) <= Place_ID'Last/2) then
-					F := Next'Access;
-				else
-					F := Prev'Access;
-				end if;
-			elsif From > To then
-				if ((From - To) >= Place_ID'Last/2) then
-					F := Next'Access;
-				else
-					F := Prev'Access;
-				end if;
-			end if;
-
-			while C.ID /= To loop
-				C := F(C);
-				Path.Add(P, Path.Point'(Float(C.X), Float(C.Y)));
-			end loop;
-		end if;
-
-		return P;
-	end;
-
 	-- private functions and procedures.
 
 	procedure Draw_Site is
