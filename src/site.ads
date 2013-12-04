@@ -8,15 +8,13 @@ generic
 package Site is
 	use Adagraph;
 
-	type Place is tagged private;
-	type Place_With_ID is private;
+	subtype Bot_ID     is Positive range 1..NRobots;
+	subtype Place_Name is Positive range 1..(3*NPlaces+1);
 
-	subtype In_Place   is Place_With_ID;
-	subtype Out_Place  is Place_With_ID;
-	subtype Ring_Place is Place_With_ID;
-
-	subtype Bot_ID   is Positive range 1..NRobots;
-	subtype Place_ID is Positive range 1..NPlaces;
+	-- Ring_Place includes the center (last index)
+	subtype In_Place   is Place_Name range (0*NPlaces+1)..(1*NPlaces);
+	subtype Out_Place  is Place_Name range (1*NPlaces+1)..(2*NPlaces);
+	subtype Ring_Place is Place_Name range (2*NPlaces+1)..(3*NPlaces+1);
 
 	type Position is record
 		X, Y: Integer;
@@ -34,19 +32,17 @@ package Site is
 	function Way_Out (R: Ring_Place) return Out_Place;
 	function Opposite(R: Ring_Place) return Ring_Place;
 
+	Illegal_Place: exception;
+
 private
 
 	type Place is tagged record
 		X, Y:  Integer;
 	end record;
 
-	type Place_With_ID is new Place with record
-		ID: Place_ID;
-	end record;
-
-	type In_Places   is array(Place_ID) of In_Place;
-	type Out_Places  is array(Place_ID) of Out_Place;
-	type Ring_Places is array(Place_ID) of Ring_Place;
+	type In_Places   is array(In_Place  ) of Place;
+	type Out_Places  is array(Out_Place ) of Place;
+	type Ring_Places is array(Ring_Place) of Place;
 
 	-- adagraph init vars
 	X_Max, Y_Max, X_Char, Y_Char: Integer;

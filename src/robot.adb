@@ -13,7 +13,7 @@ package body Robot is
 	use type Ada.Real_Time.Time, Ada.Real_Time.Time_Span;
 
 	task body Object is
-		T: Route.Object;
+		T:  Route.Object;
 		ID: Work_Site.Bot_ID;
 		Tick_Time, Next_Tick: RT.Time;
 	begin
@@ -50,12 +50,12 @@ package body Robot is
 
 
 	protected body ID_Distributor is
-		procedure Get_ID (Bot_ID: out Work_Site.Bot_ID) is
+		procedure Get_ID (Rbt_ID: out Work_Site.Bot_ID) is
 		begin
 			-- Will raise range exception if the work site can't handle more bots
 			-- which is fine.
 			ID := ID + 1;
-			Bot_ID := ID;
+			Rbt_ID := ID;
 		end;
 	end ID_Distributor;
 

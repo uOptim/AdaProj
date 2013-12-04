@@ -17,12 +17,32 @@ procedure Main is
 	P1, P2, P3, P4        : Path.Object;
 	Rbt1, Rbt2, Rbt3, Rbt4: HexBot.Object;
 begin
-	P1 := Path_Maker.Get_Path(Path_Maker.Open(5, 1));
-	P2 := Path_Maker.Get_Path(Path_Maker.Open(3, 6));
-	P3 := Path_Maker.Get_Path(Path_Maker.Open(5, 2));
-	P4 := Path_Maker.Get_Path(Path_Maker.Open(4, 6));
-
 	HexSite.Traffic.Start;
+
+	P1 := Path_Maker.Get_Path(
+		Path_Maker.Open(
+			HexSite.Ring_Place'First-1+5,
+			HexSite.Ring_Place'First-1+1
+		)
+	);
+	P2 := Path_Maker.Get_Path(
+		Path_Maker.Open(
+			HexSite.Ring_Place'First-1+3,
+			HexSite.Ring_Place'First-1+6
+		)
+	);
+	P3 := Path_Maker.Get_Path(
+		Path_Maker.Open(
+			HexSite.Ring_Place'First-1+5,
+			HexSite.Ring_Place'First-1+2
+		)
+	);
+	P4 := Path_Maker.Get_Path(
+		Path_Maker.Open(
+			HexSite.Ring_Place'First-1+4,
+			HexSite.Ring_Place'First-1+6
+		)
+	);
 
 	Rbt1.Follow(P1);
 	Rbt2.Follow(P2);
@@ -31,10 +51,10 @@ begin
 
 	delay 5.0;
 
-	HexSite.Traffic.Stop;
-
 	Rbt1.Shutdown;
 	Rbt2.Shutdown;
 	Rbt3.Shutdown;
 	Rbt4.Shutdown;
+
+	HexSite.Traffic.Stop;
 end;
