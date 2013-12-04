@@ -46,5 +46,17 @@ package body Site.Places_Path is
 
 	function At_End(PP: Object) return Boolean is
 		(Path.Segment_Count(PP.P) = PP.It-1);
+
+
+	function Robot_Intersects(P: Place_ID; R: Bot_ID) return Boolean is
+		Square_Dist: Float;
+		Rbt_Pos:     Position := Positions(R);
+	begin
+		-- use last reported robot position
+		Square_Dist :=
+			  (Float(RP(P).X) - Float(Rbt_Pos.X))**2
+			+ (Float(RP(P).Y) - Float(Rbt_Pos.Y))**2;
+		return Square_Dist <= Place_Size**2;
+	end;
 end;
 
