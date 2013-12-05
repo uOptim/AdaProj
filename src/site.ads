@@ -48,7 +48,6 @@ private
 	X_Max, Y_Max, X_Char, Y_Char: Integer;
 
 	-- places
-	Center: Place;
 	IP: In_Places;
 	OP: Out_Places;
 	RP: Ring_Places;
