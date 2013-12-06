@@ -35,22 +35,17 @@ package Site is
 	Illegal_Place: exception;
 
 private
+	-- adagraph init vars
+	X_Max, Y_Max, X_Char, Y_Char: Integer;
 
 	type Place is tagged record
 		X, Y:  Integer;
 	end record;
 
-	type In_Places   is array(In_Place  ) of Place;
-	type Out_Places  is array(Out_Place ) of Place;
-	type Ring_Places is array(Ring_Place) of Place;
-
-	-- adagraph init vars
-	X_Max, Y_Max, X_Char, Y_Char: Integer;
+	type Places_Array is array(Place_Name) of Place;
 
 	-- places
-	IP: In_Places;
-	OP: Out_Places;
-	RP: Ring_Places;
+	Places: Places_Array;
 
 	-- Position of our Robots
 	type RobotPositions is array(Bot_ID) of Position;

@@ -18,16 +18,16 @@ package body Site.Places_Path is
 
 	begin
 		-- In Place and first Ring place
-		Places_List.Push_Back(O.PP, IP(From));
-		Places_List.Push_Back(O.PP, RP(Ring_First));
+		Places_List.Push_Back(O.PP, Places(From));
+		Places_List.Push_Back(O.PP, Places(Ring_First));
 
 		-- Add ring places
 		if Ring_First = Opposite(Ring_Last) then
 			declare
-				Center: Place := RP(Ring_Place'Last);
+				Center: Place := Places(Ring_Place'Last);
 			begin
 				Places_List.Push_Back(O.PP, Center);
-				Places_List.Push_Back(O.PP, RP(Ring_Last));
+				Places_List.Push_Back(O.PP, Places(Ring_Last));
 			end;
 		else
 			if Ring_First < Ring_Last then
@@ -44,12 +44,12 @@ package body Site.Places_Path is
 
 			while C /= Ring_Last loop
 				C := F(C);
-				Places_List.Push_Back(O.PP, RP(C));
+				Places_List.Push_Back(O.PP, Places(C));
 			end loop;
 		end if;
 
 		-- Out place
-		Places_List.Push_Back(O.PP, OP(To  ));
+		Places_List.Push_Back(O.PP, Places(To));
 
 		O.It := 1;
 
@@ -93,8 +93,8 @@ package body Site.Places_Path is
 	begin
 		-- use last reported robot position
 		Square_Dist :=
-			  (Float(RP(P).X) - Float(Rbt_Pos.X))**2
-			+ (Float(RP(P).Y) - Float(Rbt_Pos.Y))**2;
+			  (Float(Places(P).X) - Float(Rbt_Pos.X))**2
+			+ (Float(Places(P).Y) - Float(Rbt_Pos.Y))**2;
 		return Square_Dist <= Place_Size**2;
 	end;
 end;

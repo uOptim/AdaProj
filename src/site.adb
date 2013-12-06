@@ -95,19 +95,19 @@ package body Site is
 	procedure Draw_Site is
 		P_Prev, Center: Place;
 	begin
-		for P of IP loop
+		for P of Places(In_Place'Range) loop
 			Draw_Circle(P.X, P.Y, 5, Hue => Green, Filled => Fill);
 		end loop;
-		for P of OP loop
+		for P of Places(Out_Place'Range) loop
 			Draw_Circle(P.X, P.Y, 5, Hue => Red, Filled => Fill);
 		end loop;
-		for P of RP loop
+		for P of Places(Ring_Place'Range) loop
 			Draw_Circle(P.X, P.Y, 5, Hue => White, Filled => Fill);
 		end loop;
 		-- lines
-		Center := RP(RP'Last);
-		P_Prev := RP(RP'Last-1);
-		for P of RP(RP'First..(RP'Last-1)) loop
+		Center := Places(Ring_Place'Last);
+		P_Prev := Places(Ring_Place'Last-1);
+		for P of Places(Ring_Place'First..(Ring_Place'Last-1)) loop
 			-- lines to the center
 			Draw_Line(P.X, P.Y, Center.X, Center.Y, Hue => White);
 			-- line to the previous point
@@ -149,7 +149,7 @@ begin
 		Radians_Cycle: constant Float := 2.0 * Ada.Numerics.Pi;
 	begin
 		-- center
-		RP(Ring_Place'Last) := Place'(X => X_Max/2, Y => Y_Max/2);
+		Places(Ring_Place'Last) := Place'(X => X_Max/2, Y => Y_Max/2);
 
 		-- ring without the center
 		for K in 0..(NPlaces-1) loop
@@ -166,14 +166,14 @@ begin
 				)
 			);
 
-			RP(Ring_Place(K+Ring_Place'First)) := Place'(X => X, Y => Y);
+			Places(Ring_Place(K+Ring_Place'First)) := Place'(X => X, Y => Y);
 
 			if X > X_Max/2 then
-				IP(In_Place (K+In_Place'First )) := Place'(X => X+20, Y => Y-10);
-				OP(Out_Place(K+Out_Place'First)) := Place'(X => X+20, Y => Y+10);
+				Places(In_Place (K+In_Place'First )) := Place'(X => X+20, Y => Y-10);
+				Places(Out_Place(K+Out_Place'First)) := Place'(X => X+20, Y => Y+10);
 			else
-				IP(In_Place (K+In_Place'First )) := Place'(X => X-20, Y => Y-10);
-				OP(Out_Place(K+Out_Place'First)) := Place'(X => X-20, Y => Y+10);
+				Places(In_Place (K+In_Place'First )) := Place'(X => X-20, Y => Y-10);
+				Places(Out_Place(K+Out_Place'First)) := Place'(X => X-20, Y => Y+10);
 			end if;
 		end loop;
 	end;
