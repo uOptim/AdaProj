@@ -35,10 +35,12 @@ package body Site is
 			or
 				delay until Next_Tick;
 				Clear;
+				Adagraph.Set_Immediate_Rendering(False);
 				Draw_Site;
 				for P of Positions loop
 					Draw_Robot(P);
 				end loop;
+				Adagraph.Set_Immediate_Rendering(True);
 				Tick_Time := RT.Clock;
 				Next_Tick := Tick_Time + RT.Milliseconds(Tick_Len);
 			end select;
