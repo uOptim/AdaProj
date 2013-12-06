@@ -7,9 +7,8 @@ package body Path is
 	use Adagraph;
 	package GEF is new Ada.Numerics.Generic_Elementary_Functions(Float);
 
-
 	function Value(From: Points) return Object is
-		Obj: Object(Size => From'Length);
+		Obj: Object(From'Length);
 	begin
 		Obj.Values := From;
 		return Obj;
@@ -17,14 +16,14 @@ package body Path is
 
 
 	function Segment_Count(Path: in Object) return Natural is
-		(if Path.Values'Length > 0 then Path.Values'Length - 1 else 0);
+		(if Path.Size > 0 then Path.Size - 1 else 0);
 
 
 	function Segment_Length(Path: in Object; Segment: in Positive)
 		return Float is
 		P1, P2: Point;
 	begin
-		if Path.Values'Length > 1 then
+		if Path.Size > 1 then
 			P1 := Path.Values(Segment  );
 			P2 := Path.Values(Segment+1);
 			return GEF.Sqrt(
@@ -38,7 +37,7 @@ package body Path is
 
 
 	function "&"(Left: in Object; Right: in Object) return Object is
-		Obj: Object(Left.Values'Length + Right.Values'Length);
+		Obj: Object(Left.Size + Right.Size);
 	begin
 		Obj.Values := Left.Values & Right.Values;
 		return Obj;
@@ -46,7 +45,7 @@ package body Path is
 
 
 	function "&"(Left: in Object; Right: in Point) return Object is
-		Obj: Object(Left.Values'Length+1);
+		Obj: Object(Left.Size+1);
 	begin
 		Obj.Values := Left.Values & Right;
 		return Obj;
@@ -54,7 +53,7 @@ package body Path is
 
 
 	function "&"(Left: in Point ; Right: in Object) return Object is
-		Obj: Object(Right.Values'Length+1);
+		Obj: Object(Right.Size+1);
 	begin
 		Obj.Values := Points'(0 => Left) & Right.Values;
 		return Obj;
@@ -78,7 +77,6 @@ package body Path is
 			return X1 + K*(X2-X1);
 		else
 			X1 := Path.Values(Segment).X;
-			Ada.Text_IO.Put_Line(Float'Image(X1));
 			return X1;
 		end if;
 	end;
@@ -102,11 +100,11 @@ package body Path is
 	procedure Print(P: Object) is
 	begin
 		if P = Null_Path then
-			Ada.Text_IO.Put_Line("NULL PATH!");
+			Ada.Text_IO.Put_Line("Null path.");
 			return;
 		end if;
 
-		for I in P.Values'First..P.Values'Last loop
+		for I in P.Values'Range loop
 			Ada.Text_IO.Put(
 				Float'Image(P.Values(I).X) &
 				Float'Image(P.Values(I).Y) &

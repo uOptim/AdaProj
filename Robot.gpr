@@ -1,4 +1,5 @@
 with "./adagraph/libadagraph.gpr";
+with "./list/liblist.gpr";
 
 project Robot is
 	for Main use ("main.adb");

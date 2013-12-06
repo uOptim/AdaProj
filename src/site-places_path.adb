@@ -1,3 +1,4 @@
+with Ada.Text_IO;
 
 package body Site.Places_Path is
 
@@ -5,19 +6,26 @@ package body Site.Places_Path is
 		type Next_Place_Func is access
 			function(R: Ring_Place) return Ring_Place;
 
-		C:  Ring_Place := From;
-		F:  Next_Place_Func;
-		PP: Path.Object;
+		O: Object;
+		C: Ring_Place := From;
+		F: Next_Place_Func;
 
 	begin
-		Path.Add(PP, Path.Point'(Float(RP(C).X), Float(RP(C).Y)));
+		if (O.PP /= null) then
+			Close(O);
+		end if;
+
+		O.It := 1;
+		O.PP := new Places_List.Object;
+
+		Places_List.Push_Back(O.PP.all, RP(C));
 
 		if To = Opposite(From) then
 			declare
 				Center: Place := RP(Ring_Place'Last);
 			begin
-				Path.Add(PP, Path.Point'(Float(Center.X), Float(Center.Y)));
-				Path.Add(PP, Path.Point'(Float(RP(To).X), Float(RP(To).Y)));
+				Places_List.Push_Back(O.PP.all, Center);
+				Places_List.Push_Back(O.PP.all, RP(To));
 			end;
 		else
 			if From < To then
@@ -34,20 +42,45 @@ package body Site.Places_Path is
 
 			while C /= To loop
 				C := F(C);
-				Path.Add(PP, Path.Point'(Float(RP(C).X), Float(RP(C).Y)));
+				Places_List.Push_Back(O.PP.all, RP(C));
 			end loop;
 		end if;
 
-		return Object'(P => PP, It => 1);
+		return O;
 	end;
 
 
-	function Get_Path(PP: Object) return Path.Object is
-		(PP.P);
+	procedure Close(O: in out Object) is
+	begin
+		if (O.PP /= null) then
+			Free_PP(O.PP);
+			O.PP := null;
+		end if;
+		O.It := 1;
+	end;
 
 
-	function At_End(PP: Object) return Boolean is
-		(Path.Segment_Count(PP.P) = PP.It-1);
+	function Get_Path(O: Object) return Path.Object is
+		Pl: Place;
+		P:  Path.Object;
+		I:  Places_Iterator.It;
+
+		use type Path.Object;
+		use type Places_Iterator.It;
+	begin
+		Places_Iterator.Init_Front(I, O.PP.all);
+		loop
+			Pl := Places_Iterator.Get(I);
+			P  := P & Path.Point'(Float(Pl.X), Float(Pl.Y));
+			exit when (not Places_Iterator.Has_Next(I));
+			I  := I+1;
+		end loop;
+		return P;
+	end;
+
+
+	function At_End(O: Object) return Boolean is
+		(O.It = Places_List.Size(O.PP.all));
 
 
 	function Robot_Intersects(P: Ring_Place; R: Bot_ID) return Boolean is

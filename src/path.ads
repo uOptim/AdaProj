@@ -1,9 +1,4 @@
-with Adagraph;
-
 package Path is
-	use Adagraph;
-
-	--
 	type Object is private;
 
 	type Point is record
