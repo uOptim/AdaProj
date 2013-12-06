@@ -22,8 +22,6 @@ private
 	package Places_List     is new List(Class => Place);
 	package Places_Iterator is new Places_List.Iterator;
 
-	type Places_List_Ref is access Places_List.Object;
-
 	type Object is record
 		It: Positive := 1;
 		PP: Places_List.Object;
