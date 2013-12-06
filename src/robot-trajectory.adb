@@ -34,14 +34,19 @@ package body Robot.Trajectory is
 	function Is_Done(T: Object) return Boolean is
 		(T.Done);
 
-	procedure Open(T: in out Object; P: Path.Object; Speed: Float) is
+	procedure Open (
+		T: in out Object;
+		From: Work_Site.In_Place; To: Work_Site.Out_Place;
+		Speed: Float
+	) is
 	begin
 		Reset(T);
-		if Path.Segment_Count(P) = 0 then
+		T.Speed := Speed;
+		T.PM    := Path_Maker.Open(From, To);
+		T.Route := Path_Maker.Get_Path(T.PM);
+		if Path.Segment_Count(T.Route) = 0 then
 			T.Done := True;
 		end if;
-		T.Route := P;
-		T.Speed := Speed;
 	end;
 
 	procedure Close(T: in out Object) is

@@ -2,49 +2,56 @@ with Ada.Text_IO;
 
 package body Site.Places_Path is
 
-	function Open(From, To: Ring_Place) return Object is
+	function Open(From: In_Place; To: Out_Place) return Object is
 		type Next_Place_Func is access
 			function(R: Ring_Place) return Ring_Place;
 
 		O: Object;
-		C: Ring_Place := From;
 		F: Next_Place_Func;
 
+		Ring_First: Ring_Place
+			:= Ring_Place'(From - In_Place'First  + Ring_Place'First);
+		Ring_Last:  Ring_Place
+			:= Ring_Place'(To   - Out_Place'First + Ring_Place'First);
+
+		C: Ring_Place := Ring_First;
+
 	begin
-		if (O.PP /= null) then
-			Close(O);
-		end if;
+		-- In Place and first Ring place
+		Places_List.Push_Back(O.PP, IP(From));
+		Places_List.Push_Back(O.PP, RP(Ring_First));
 
-		O.It := 1;
-		O.PP := new Places_List.Object;
-
-		Places_List.Push_Back(O.PP.all, RP(C));
-
-		if To = Opposite(From) then
+		-- Add ring places
+		if Ring_First = Opposite(Ring_Last) then
 			declare
 				Center: Place := RP(Ring_Place'Last);
 			begin
-				Places_List.Push_Back(O.PP.all, Center);
-				Places_List.Push_Back(O.PP.all, RP(To));
+				Places_List.Push_Back(O.PP, Center);
+				Places_List.Push_Back(O.PP, RP(Ring_Last));
 			end;
 		else
-			if From < To then
-				if (To - From) <= NPlaces/2
+			if Ring_First < Ring_Last then
+				if (Ring_Last - Ring_First) <= NPlaces/2
 				then F := Next'Access;
 				else F := Prev'Access;
 				end if;
-			elsif From > To then
-				if (From - To) >= NPlaces/2
+			elsif Ring_First > Ring_Last then
+				if (Ring_First - Ring_Last) >= NPlaces/2
 				then F := Next'Access;
 				else F := Prev'Access;
 				end if;
 			end if;
 
-			while C /= To loop
+			while C /= Ring_Last loop
 				C := F(C);
-				Places_List.Push_Back(O.PP.all, RP(C));
+				Places_List.Push_Back(O.PP, RP(C));
 			end loop;
 		end if;
+
+		-- Out place
+		Places_List.Push_Back(O.PP, OP(To  ));
+
+		O.It := 1;
 
 		return O;
 	end;
@@ -52,11 +59,8 @@ package body Site.Places_Path is
 
 	procedure Close(O: in out Object) is
 	begin
-		if (O.PP /= null) then
-			Free_PP(O.PP);
-			O.PP := null;
-		end if;
 		O.It := 1;
+		Places_List.Clear(O.PP);
 	end;
 
 
@@ -68,7 +72,7 @@ package body Site.Places_Path is
 		use type Path.Object;
 		use type Places_Iterator.It;
 	begin
-		Places_Iterator.Init_Front(I, O.PP.all);
+		Places_Iterator.Init_Front(I, O.PP);
 		loop
 			Pl := Places_Iterator.Get(I);
 			P  := P & Path.Point'(Float(Pl.X), Float(Pl.Y));
@@ -80,7 +84,7 @@ package body Site.Places_Path is
 
 
 	function At_End(O: Object) return Boolean is
-		(O.It = Places_List.Size(O.PP.all));
+		(O.It = Places_List.Size(O.PP));
 
 
 	function Robot_Intersects(P: Ring_Place; R: Bot_ID) return Boolean is

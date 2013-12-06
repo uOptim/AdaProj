@@ -3,11 +3,12 @@ with Path;
 
 generic
 	with package Work_Site is new Site (<>);
+
 package Robot is
 
 	task type Object is
-		entry Follow(PP: in Path.Object);
 		entry Shutdown;
+		entry Go(From: Work_Site.In_Place; To: Work_Site.Out_Place);
 	end;
 
 private

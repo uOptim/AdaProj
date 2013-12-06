@@ -25,8 +25,8 @@ package body Robot is
 
 		loop
 			select
-				accept Follow(PP: in Path.Object) do
-					T.Open(PP, 200.0);
+				accept Go(From: Work_Site.In_Place; To: Work_Site.Out_Place) do
+					T.Open(From, To, 200.0);
 				end;
 				Work_Site.Traffic.Update_Position(
 					ID, Work_Site.Position'(Integer(T.X), Integer(T.Y))

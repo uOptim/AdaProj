@@ -1,4 +1,6 @@
 with Path;
+with Site;
+with Site.Places_Path;
 
 private generic
 package Robot.Trajectory is
@@ -11,10 +13,16 @@ package Robot.Trajectory is
 	function Is_Done(T: Object) return Boolean;
 
 	procedure Next (T: in out Object; dt: Float);
-	procedure Open (T: in out Object; P: Path.Object; Speed: Float);
+	procedure Open (
+		T: in out Object;
+		From: Work_Site.In_Place; To: Work_Site.Out_Place;
+		Speed: Float
+	);
 	procedure Close(T: in out Object);
 
 private
+	package Path_Maker is new Work_Site.Places_Path;
+
 	procedure Reset(T: in out Object);
 
 	type Object is tagged record
@@ -23,5 +31,6 @@ private
 		Speed:   Float       := 5.0;
 		Segment: Positive    := 1;
 		Route:   Path.Object := Path.Null_Path;
+		PM:      Path_Maker.Object;
 	end record;
 end;
