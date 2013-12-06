@@ -6,7 +6,7 @@ with Ada.Unchecked_Deallocation;
 generic
 package Site.Places_Path is
 
-	type Object is private;
+	type Object is tagged private;
 
 	function  Open (From: In_Place; To: Out_Place) return Object;
 	procedure Close(O: in out Object);
@@ -19,10 +19,10 @@ package Site.Places_Path is
 private
 	Place_Size: constant Float := 20.0;
 
-	package Places_List     is new List(Class => Place);
+	package Places_List     is new List(Class => Place_Name);
 	package Places_Iterator is new Places_List.Iterator;
 
-	type Object is record
+	type Object is tagged record
 		It: Positive := 1;
 		PP: Places_List.Object;
 	end record;

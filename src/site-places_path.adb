@@ -18,16 +18,16 @@ package body Site.Places_Path is
 
 	begin
 		-- In Place and first Ring place
-		Places_List.Push_Back(O.PP, Places(From));
-		Places_List.Push_Back(O.PP, Places(Ring_First));
+		Places_List.Push_Back(O.PP, From);
+		Places_List.Push_Back(O.PP, Ring_First);
 
 		-- Add ring places
 		if Ring_First = Opposite(Ring_Last) then
 			declare
-				Center: Place := Places(Ring_Place'Last);
+				Center: Place_Name := Ring_Place'Last;
 			begin
 				Places_List.Push_Back(O.PP, Center);
-				Places_List.Push_Back(O.PP, Places(Ring_Last));
+				Places_List.Push_Back(O.PP, Ring_Last);
 			end;
 		else
 			if Ring_First < Ring_Last then
@@ -44,12 +44,12 @@ package body Site.Places_Path is
 
 			while C /= Ring_Last loop
 				C := F(C);
-				Places_List.Push_Back(O.PP, Places(C));
+				Places_List.Push_Back(O.PP, C);
 			end loop;
 		end if;
 
 		-- Out place
-		Places_List.Push_Back(O.PP, Places(To));
+		Places_List.Push_Back(O.PP, To);
 
 		O.It := 1;
 
@@ -74,7 +74,7 @@ package body Site.Places_Path is
 	begin
 		Places_Iterator.Init_Front(I, O.PP);
 		loop
-			Pl := Places_Iterator.Get(I);
+			Pl := Places(Places_Iterator.Get(I));
 			P  := P & Path.Point'(Float(Pl.X), Float(Pl.Y));
 			exit when (not Places_Iterator.Has_Next(I));
 			I  := I+1;
