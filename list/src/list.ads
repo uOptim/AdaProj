@@ -4,7 +4,7 @@ generic
 	type Class is private;
 
 package List is
-	type Object is limited private;
+	type Object is private;
 
 	procedure Pop_Front (S: in out Object);
 	procedure Pop_Back  (S: in out Object);
