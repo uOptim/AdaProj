@@ -72,16 +72,16 @@ package body Site is
 	end;
 
 	function Opposite(R: Ring_Place) return Ring_Place is
-		Tmp: Integer := R + NPlaces/2;
 		Center: Ring_Place := Ring_Place'Last;
+		Tmp:    Integer    := R - Ring_Place'First + NPlaces/2;
 	begin
 		if R = Center then
 			raise Illegal_Place;
 		end if;
-		if ((R-Ring_Place'First) > NPlaces/2) then
+		if (Tmp >= NPlaces) then
 			Tmp := Tmp - NPlaces;
 		end if;
-		return Ring_Place(Tmp);
+		return Ring_Place(Ring_Place'First + Tmp);
 	end;
 
 	function Way_In(R: Ring_Place) return In_Place is
