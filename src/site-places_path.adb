@@ -64,6 +64,30 @@ package body Site.Places_Path is
 	end;
 
 
+	function Size(O: Object) return Natural is
+		(Places_List.Size(O.PP));
+
+
+	function Value(O: Object) return Place_Name_Array is
+		I: Places_Iterator.It;
+		use type Places_Iterator.It;
+
+		S: Natural := Size(O);
+		A: Place_Name_Array(1..S);
+
+		t: Positive := 1;
+	begin
+		Places_Iterator.Init_Front(I, O.PP);
+		loop
+			A(t) := Places_Iterator.Get(I);
+			exit when (not Places_Iterator.Has_Next(I));
+			I := I+1;
+			t := t+1;
+		end loop;
+		return A;
+	end;
+
+
 	function Get_Path(O: Object) return Path.Object is
 		Pl: Place;
 		P:  Path.Object;
@@ -87,14 +111,12 @@ package body Site.Places_Path is
 		(O.It = Places_List.Size(O.PP));
 
 
-	function Robot_Intersects(P: Ring_Place; R: Bot_ID) return Boolean is
+	function Robot_Intersects(P: Place_Name; Pos: Site.Position) return Boolean is
 		Square_Dist: Float;
-		Rbt_Pos:     Position := Positions(R);
 	begin
-		-- use last reported robot position
 		Square_Dist :=
-			  (Float(Places(P).X) - Float(Rbt_Pos.X))**2
-			+ (Float(Places(P).Y) - Float(Rbt_Pos.Y))**2;
+			  (Float(Places(P).X) - Float(Pos.X))**2
+			+ (Float(Places(P).Y) - Float(Pos.Y))**2;
 		return Square_Dist <= Place_Size**2;
 	end;
 end;

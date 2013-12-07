@@ -8,13 +8,18 @@ package Site.Places_Path is
 
 	type Object is tagged private;
 
+	type Place_Name_Array is array (Positive range <>) of Place_Name;
+
 	function  Open (From: In_Place; To: Out_Place) return Object;
 	procedure Close(O: in out Object);
 
+	function Size    (O: Object) return Natural;
+	function Value   (O: Object) return Place_Name_Array;
 	function Get_Path(O: Object) return Path.Object;
 	function At_End  (O: Object) return Boolean;
 
-	function Robot_Intersects(P: Ring_Place; R: Bot_ID) return Boolean;
+	function Robot_Intersects(P: Place_Name; Pos: Site.Position) return Boolean;
+
 
 private
 	Place_Size: constant Float := 20.0;
