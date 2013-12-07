@@ -2,7 +2,7 @@ package body Generic_Resource_Pool is
 
 	procedure Acquire(Map: Request_Map) is
 	begin
-		for ID in Resource_ID'First..Resource_ID'Last loop
+		for ID in Resource_ID'Range loop
 			if Map(ID) then Acquire(ID); end if;
 		end loop;
 	end;
@@ -14,7 +14,7 @@ package body Generic_Resource_Pool is
 
 	procedure Release(Map: Request_Map) is
 	begin
-		for ID in Resource_ID'First..Resource_ID'Last loop
+		for ID in Resource_ID'Range loop
 			if Map(ID) then Release(ID); end if;
 		end loop;
 	end;
@@ -27,9 +27,6 @@ package body Generic_Resource_Pool is
 	protected body Resource is
 		procedure Release is
 		begin
-			if (Taken = False) then
-				raise Illegal_Release;
-			end if;
 			Taken := False;
 		end;
 
