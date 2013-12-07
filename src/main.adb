@@ -19,9 +19,9 @@ begin
 	HexSite.Traffic.Start;
 
 	Rbt1.Go(HexSite.In_Place'First+1, HexSite.Out_Place'First+5);
-	Rbt2.Go(HexSite.In_Place'First+2, HexSite.Out_Place'First+1);
-	Rbt3.Go(HexSite.In_Place'First+5, HexSite.Out_Place'First+0);
-	Rbt4.Go(HexSite.In_Place'First+0, HexSite.Out_Place'First+3);
+	Rbt2.Go(HexSite.In_Place'First+1, HexSite.Out_Place'First+4);
+	Rbt3.Go(HexSite.In_Place'First+1, HexSite.Out_Place'First+3);
+	Rbt4.Go(HexSite.In_Place'First+1, HexSite.Out_Place'First+2);
 
 	delay 5.0;
 

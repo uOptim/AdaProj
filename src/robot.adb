@@ -1,4 +1,5 @@
 with Robot.Trajectory;
+with Robot.Safe_Trajectory;
 
 with Ada.Text_IO;
 with Ada.Real_Time;
@@ -8,7 +9,7 @@ package body Robot is
 	package IO renames Ada.Text_IO;
 	package RT renames Ada.Real_Time;
 
-	package Route is new Robot.Trajectory;
+	package Route is new Robot.Safe_Trajectory;
 
 	use type Ada.Real_Time.Time, Ada.Real_Time.Time_Span;
 
