@@ -16,7 +16,7 @@ package Robot.Trajectory is
 	procedure Open (
 		T: in out Object;
 		From: Work_Site.In_Place; To: Work_Site.Out_Place;
-		Speed: Float
+		Speed: Float := 100.0
 	);
 	procedure Close(T: in out Object);
 

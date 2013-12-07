@@ -37,7 +37,7 @@ package body Robot.Trajectory is
 	procedure Open (
 		T: in out Object;
 		From: Work_Site.In_Place; To: Work_Site.Out_Place;
-		Speed: Float
+		Speed: Float := 100.0
 	) is
 	begin
 		Reset(T);
