@@ -12,6 +12,12 @@ package body Robot.Trajectory is
 	function Route(T: Object) return Path.Object is
 		(T.Route);
 
+	function Places(T: Object) return Path_Maker.Place_Name_Array is
+		(Path_Maker.Value(T.PM));
+
+	function Segment(T: Object) return Positive is
+		(T.Segment);
+
 	procedure Next(T: in out Object; dt: Float) is
 		dK: Float;
 	begin
@@ -22,11 +28,12 @@ package body Robot.Trajectory is
 		while T.K > 1.0 loop
 			T.K       := T.K - 1.0;
 			T.Segment := T.Segment + 1;
+			--Path_Maker.Next(T.PM);
 		end loop;
 
 		if T.Segment > Path.Segment_Count(T.Route) then
+			T.K       := 1.0;
 			T.Done    := True;
-			T.K       := 1.0;  -- in case we went too far
 			T.Segment := Path.Segment_Count(T.Route);
 		end if;
 	end;
