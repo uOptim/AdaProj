@@ -3,10 +3,11 @@ with Adagraph;
 
 with Ada.Real_Time;
 with Ada.Numerics.Elementary_Functions;
-use  Ada.Numerics.Elementary_Functions;
 
 
 package body Site is
+	use  Ada.Numerics.Elementary_Functions;
+
 	package RT renames Ada.Real_Time;
 
 	task body Traffic is
