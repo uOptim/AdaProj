@@ -1,4 +1,3 @@
-with Robot.Trajectory;
 with Robot.Safe_Trajectory;
 
 with Ada.Text_IO;
@@ -37,6 +36,9 @@ package body Robot is
 				Tick_Time := RT.Clock;
 				Next_Tick := Tick_Time + RT.Milliseconds(Integer(1000.0*dt));
 				T.Next(dt);
+				if T.Is_Done then
+					MBox.Put(ID);
+				end if;
 				Work_Site.Traffic.Update_Position(
 					ID, Work_Site.Position'(Integer(T.X), Integer(T.Y))
 				);

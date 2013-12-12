@@ -1,8 +1,9 @@
 with Site;
 with Robot;
+with Mailbox;
 
 generic
-	Effectif: Positive := 4; -- 4 robots default
+	Effectif: Positive := 4;
 	with package Work_Site is new Site (<>);
 
 package Agency is
@@ -11,9 +12,17 @@ package Agency is
 	procedure Killall;
 
 private
-	package Robot_Type is new Robot(Work_Site);
+	package Bot_Mailbox is new Mailbox(Message_Type => Work_Site.Bot_ID);
+	package Robot_Type  is new Robot(
+		Work_Site   => Work_Site,
+		Mailbox_Pkg => Bot_Mailbox
+	);
 
-	type Robot_Array is array(1..Effectif) of Robot_Type.Object;
+	Done_Msg_Box: aliased Bot_Mailbox.Object(Size => Work_Site.Bot_ID'Last);
+
+	type Robot_Array is array(1..Effectif)
+		of Robot_Type.Object(MBox => Done_Msg_Box'Access);
+
 
 	Robot_Collection: Robot_Array;
 

@@ -7,7 +7,7 @@ with Ada.Text_IO;
 procedure Main is
 	package IO renames Ada.Text_IO;
 
-	package HexSite is new Site(NPlaces => 6, NRobots => 4);
+	package HexSite   is new Site(NPlaces => 6, NRobots => 4);
 	package HexAgency is new Agency(Work_Site => HexSite);
 
 begin
