@@ -1,4 +1,5 @@
 with Robot;
+
 with Adagraph;
 
 with Ada.Real_Time;
@@ -10,6 +11,9 @@ package body Site is
 
 	package RT renames Ada.Real_Time;
 
+	--
+	-- Site area
+	--
 	task body Traffic is
 		use type Ada.Real_Time.Time;
 		use type Ada.Real_Time.Time_Span;
@@ -140,6 +144,33 @@ package body Site is
 	begin
 		Destroy_Graph_Window;
 	end;
+
+
+	--
+	-- Parking stuff
+	--
+	protected body Parking is
+
+		function Is_Empty return Boolean is
+			(Robot_List.Size(Frees) > 0);
+
+		procedure Park(ID: Bot_ID) is
+		begin
+			if (Frees_Mask(ID)) then
+				raise Illegal_Park;
+			end if;
+			Robot_List.Push_Back(Frees, ID);
+			Frees_Mask(ID) := True;
+		end;
+
+		entry Take(ID: in out Bot_ID) when not Is_Empty is
+		begin
+			ID := Robot_List.First(Frees);
+			Robot_List.Pop_Front(Frees);
+			Frees_Mask(ID) := False;
+		end;
+
+	end Parking;
 
 begin
 	-- init window

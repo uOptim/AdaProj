@@ -1,13 +1,17 @@
-with Path;
+with List;
 with Adagraph;
 
 generic
 	NPlaces:  Positive := 6;
 	NRobots:  Positive := 1;
 	Tick_Len: Positive := 50; -- in ms
+
 package Site is
 	use Adagraph;
 
+	--
+	-- Site area
+	--
 	subtype Bot_ID     is Positive range 1..NRobots;
 	subtype Place_Name is Positive range 1..(3*NPlaces+1);
 
@@ -33,6 +37,25 @@ package Site is
 	function Opposite(R: Ring_Place) return Ring_Place;
 
 	Illegal_Place: exception;
+
+
+	--
+	-- Parking stuff
+	--
+	package Robot_List is new List(Class => Bot_ID);
+
+	type Free_Robots_Mask is array(Bot_ID'First..Bot_ID'Last) of Boolean;
+
+	protected type Parking is
+		procedure Park(ID: Bot_ID);
+		entry Take(ID: in out Bot_ID);
+		function Is_Empty return Boolean;
+	private
+		Frees: Robot_List.Object;
+		Frees_Mask: Free_Robots_Mask := (others => False);
+	end Parking;
+
+	Illegal_Park: exception;
 
 private
 	-- adagraph init vars
