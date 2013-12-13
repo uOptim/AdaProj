@@ -26,6 +26,7 @@ package body Robot.Safe_Trajectory is
 	overriding procedure Next(T: in out Object; dt: Float) is
 	begin
 		Traj.Object(T).Next(dt);
+
 		declare
 			Places: Traj.Path_Maker.Place_Name_Array := T.Places;
 		begin
@@ -38,12 +39,26 @@ package body Robot.Safe_Trajectory is
 					T.Freed := T.Freed + 1;
 				end if;
 			end loop;
+
+			if T.Is_Done then
+				Resources.Release(Places(Places'Last));
+			end if;
 		end;
 	end;
 
 
 	overriding procedure Close(T: in out Object) is
 	begin
+		declare
+			Places: Traj.Path_Maker.Place_Name_Array := T.Places;
+		begin
+			if not T.Is_Done then
+				for Seg in T.Freed+1 .. Places'Last loop
+					Resources.Release(Places(Seg));
+				end loop;
+			end if;
+		end;
+		T.Freed := 0;
 		Traj.Object(T).Close;
 	end;
 

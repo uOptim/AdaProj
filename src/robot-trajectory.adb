@@ -28,7 +28,6 @@ package body Robot.Trajectory is
 		while T.K > 1.0 loop
 			T.K       := T.K - 1.0;
 			T.Segment := T.Segment + 1;
-			--Path_Maker.Next(T.PM);
 		end loop;
 
 		if T.Segment > Path.Segment_Count(T.Route) then
@@ -58,7 +57,6 @@ package body Robot.Trajectory is
 
 	procedure Close(T: in out Object) is
 	begin
-		Reset(T);
 		T.Done := True;
 	end;
 
