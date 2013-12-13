@@ -38,14 +38,17 @@ package body Robot is
 				T.Next(dt);
 				if T.Is_Done then
 					MBox.Put(ID);
+					T.Close;
 				end if;
 				Work_Site.Traffic.Update_Position(
 					ID, Work_Site.Position'(Integer(T.X), Integer(T.Y))
 				);
 			or
-				accept Shutdown do
-					IO.Put_Line("Robot" & Positive'Image(ID) & " shuting down");
-				end;
+				accept Shutdown;
+				IO.Put_Line("Robot" & Positive'Image(ID) & " shuting down");
+				if (not T.Is_Done) then
+					T.Close;
+				end if;
 				exit;
 			end select;
 		end loop;
