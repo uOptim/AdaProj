@@ -3,7 +3,6 @@ with Robot;
 with Mailbox;
 
 generic
-	Effectif: Positive := 4;
 	with package Work_Site is new Site (<>);
 
 package Agency is
@@ -20,9 +19,8 @@ private
 
 	Done_Msg_Box: aliased Bot_Mailbox.Object(Size => Work_Site.Bot_ID'Last);
 
-	type Robot_Array is array(1..Effectif)
+	type Robot_Array is array(Work_Site.Bot_ID'Range)
 		of Robot_Type.Object(MBox => Done_Msg_Box'Access);
-
 
 	Robot_Collection: Robot_Array;
 
