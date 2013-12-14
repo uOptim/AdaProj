@@ -16,6 +16,9 @@ package body Robot is
 		T:  Route.Object;
 		ID: Work_Site.Bot_ID;
 		Tick_Time, Next_Tick: RT.Time;
+
+		From_Tmp: Work_Site.In_Place;
+		To_Tmp:   Work_Site.Out_Place;
 	begin
 		ID_Distributor.Get_ID(ID);
 		IO.Put_Line("I am robot number" & Positive'Image(ID));
@@ -26,8 +29,12 @@ package body Robot is
 		loop
 			select
 				accept Go(From: Work_Site.In_Place; To: Work_Site.Out_Place) do
-					T.Open(From, To);
+					-- save for later because we might block the caller when
+					-- opening the path
+					To_Tmp   := To;
+					From_Tmp := From;
 				end;
+				T.Open(From_Tmp, To_Tmp);
 				Work_Site.Traffic.Update_Position(
 					ID, Work_Site.Position'(Integer(T.X), Integer(T.Y))
 				);
