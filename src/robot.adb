@@ -37,22 +37,27 @@ package body Robot is
 					To_Tmp   := To;
 					From_Tmp := From;
 				end;
+				if (not T.Is_Done) then
+					T.Close;
+				end if;
 				T.Open(From_Tmp, To_Tmp);
 				Work_Site.Traffic.Update_Position(
 					ID, Work_Site.Position'(Integer(T.X), Integer(T.Y))
 				);
+				IO.Put_Line("Robot" & Positive'Image(ID) & " got new task");
 			or
 				when not T.Is_Done => delay until Next_Tick;
 				Tick_Time := RT.Clock;
 				Next_Tick := Tick_Time + RT.Milliseconds(Integer(1000.0*dt));
 				T.Next(dt);
-				if T.Is_Done then
-					MBox.Put(ID);
-					T.Close;
-				end if;
 				Work_Site.Traffic.Update_Position(
 					ID, Work_Site.Position'(Integer(T.X), Integer(T.Y))
 				);
+				if T.Is_Done then
+					T.Close;
+					IO.Put_Line("Robot" & Positive'Image(ID) & " completed task");
+					MBox.Put(ID);
+				end if;
 			or
 				accept Shutdown;
 				IO.Put_Line("Robot" & Positive'Image(ID) & " shuting down");
