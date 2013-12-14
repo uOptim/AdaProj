@@ -72,7 +72,6 @@ private
 
 	-- Position of our Robots
 	type RobotPositions is array(Bot_ID) of Position;
-	Positions: RobotPositions := (others => Position'(0, 0));
 
 	procedure Init;
 	procedure Clear;

@@ -19,6 +19,7 @@ package body Site is
 		use type Ada.Real_Time.Time_Span;
 
 		Tick_Time, Next_Tick: RT.Time;
+		Positions: RobotPositions := (others => Position'(0, 0));
 	begin
 
 		-- wait for start signal
