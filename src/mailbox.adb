@@ -14,8 +14,8 @@ package body Mailbox is
 
 			Msgs(Put_Idx) := M;
 
-			if Put_Idx = Size then
-				Put_Idx := 1;
+			if Put_Idx = Msgs'Last then
+				Put_Idx := Msgs'First;
 			else
 				Put_Idx := Put_Idx + 1;
 			end if;
@@ -27,8 +27,8 @@ package body Mailbox is
 
 			M := Msgs(Get_Idx);
 
-			if Get_Idx = Size then
-				Get_Idx := 1;
+			if Get_Idx = Msgs'Last then
+				Get_Idx := Msgs'First;
 			else
 				Get_Idx := Get_Idx + 1;
 			end if;
