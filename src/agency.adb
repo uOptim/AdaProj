@@ -1,3 +1,9 @@
+with Ada.Text_IO;
+
+with Ada.Exceptions;
+use Ada.Exceptions;
+
+
 package body Agency is
 
 	procedure Get_To_Work is
@@ -12,6 +18,11 @@ package body Agency is
 		for Rbt of Robot_Collection loop
 			Rbt.Shutdown;
 		end loop;
+
+	exception
+		when Error: others =>
+			Ada.Text_IO.Put("Mission_Listener raised: ");
+			Ada.Text_IO.Put_Line(Exception_Information(Error));
 	end;
 
 begin

@@ -3,6 +3,9 @@ with Robot.Safe_Trajectory;
 with Ada.Text_IO;
 with Ada.Real_Time;
 
+with Ada.Exceptions;
+use Ada.Exceptions;
+
 
 package body Robot is
 	package IO renames Ada.Text_IO;
@@ -59,6 +62,11 @@ package body Robot is
 				exit;
 			end select;
 		end loop;
+
+	exception
+		when Error: others =>
+			Ada.Text_IO.Put("Robot" & Work_Site.Bot_ID'Image(ID) & " raised: ");
+			Ada.Text_IO.Put_Line(Exception_Information(Error));
 	end;
 
 

@@ -2,8 +2,12 @@ with Robot;
 
 with Adagraph;
 
+with Ada.Text_IO;
 with Ada.Real_Time;
 with Ada.Numerics.Elementary_Functions;
+
+with Ada.Exceptions;
+use Ada.Exceptions;
 
 
 package body Site is
@@ -65,6 +69,11 @@ package body Site is
 		end loop;
 
 		Destroy;
+
+	exception
+		when Error: others =>
+			Ada.Text_IO.Put("Site task raised: ");
+			Ada.Text_IO.Put_Line(Exception_Information(Error));
 	end;
 
 	function Next(R: Ring_Place) return Ring_Place is
