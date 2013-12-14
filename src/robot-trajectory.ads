@@ -26,8 +26,6 @@ package Robot.Trajectory is
 
 private
 
-	procedure Reset(T: in out Object);
-
 	type Object is tagged record
 		K:       Float       := 0.0;
 		Done:    Boolean     := True;

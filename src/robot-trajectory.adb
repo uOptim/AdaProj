@@ -43,12 +43,14 @@ package body Robot.Trajectory is
 		Speed: Float := 100.0
 	) is
 	begin
-		Reset(T);
-		T.Speed := Speed;
-		T.PM    := Path_Maker.Open(From, To);
-		T.Route := Path_Maker.Get_Path(T.PM);
+		T.Speed   := Speed;
+		T.PM      := Path_Maker.Open(From, To);
+		T.Route   := Path_Maker.Get_Path(T.PM);
+		T.Segment := 1;
 		if Path.Segment_Count(T.Route) = 0 then
 			T.Done := True;
+		else
+			T.Done := False;
 		end if;
 	end;
 
@@ -56,16 +58,5 @@ package body Robot.Trajectory is
 	begin
 		T.Done := True;
 		Path_Maker.Close(T.PM);
-	end;
-
-	-- private functions and procedures
-
-	procedure Reset(T: in out Object) is
-	begin
-		T.K       := 0.0;
-		T.Done    := False;
-		T.Speed   := 5.0;
-		T.Segment := 1;
-		T.Route   := Path.Null_Path;
 	end;
 end;
