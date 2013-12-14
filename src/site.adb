@@ -42,10 +42,22 @@ package body Site is
 				delay until Next_Tick;
 				Clear;
 				Adagraph.Set_Immediate_Rendering(False);
-				Draw_Site;
-				for P of Positions loop
-					Draw_Robot(P);
-				end loop;
+				declare
+					Color: Color_Type := Adagraph.Color_Type'First;
+				begin
+					Draw_Site;
+					for P of Positions loop
+						loop -- choose color, not Black please.
+							if Color = Color_Type'Last then
+								Color := Color_Type'First;
+							else
+								Color := Color_Type'Succ(Color);
+							end if;
+							exit when Color /= Black;
+						end loop;
+						Draw_Robot(P, Color);
+					end loop;
+				end;
 				Adagraph.Set_Immediate_Rendering(True);
 				Tick_Time := RT.Clock;
 				Next_Tick := Tick_Time + RT.Milliseconds(Tick_Len);
