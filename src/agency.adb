@@ -6,17 +6,51 @@ use Ada.Exceptions;
 
 package body Agency is
 
-	procedure Get_To_Work is
+	task body Mission_Listener is
+		Done_Msg_Box: aliased Bot_Mailbox.Object(
+			Size => Work_Site.Bot_ID'Last
+		);
+
+		type Robot_Array is array(Work_Site.Bot_ID'Range)
+			of Robot_Type.Object(MBox => Done_Msg_Box'Access);
+
+		ID: Work_Site.Bot_ID;
+		Robot_Collection: Robot_Array;
+
 	begin
+		accept Start;
+
+		-- give a mission to all bots
 		for Rbt of Robot_Collection loop
 			Rbt.Go(Rand_In.Random(Gen_In), Rand_Out.Random(Gen_Out));
 		end loop;
-	end;
 
-	procedure Killall is
-	begin
-		for Rbt of Robot_Collection loop
-			Rbt.Shutdown;
+		-- listen signals and wait for free bots
+		loop
+			select
+				accept Quit do
+					-- Note: this MUST block the caller until all bots are shut
+					-- down. Otherwise, the caller might kill the Work_Site
+					-- before our robots have a chance to shutdown properly.
+					for Rbt of Robot_Collection loop
+						Rbt.Shutdown;
+					end loop;
+				end;
+				exit;
+			else
+				if not Done_Msg_Box.Is_Empty then
+					Done_Msg_Box.Get(ID);
+					Ada.Text_IO.Put_Line(
+						"Giving new task to rbt" & Work_Site.Bot_ID'Image(ID)
+					);
+					-- give a new mission
+					Robot_Collection(ID).Go(
+						Rand_In.Random(Gen_In), Rand_Out.Random(Gen_Out)
+					);
+				else
+					delay 0.5;
+				end if;
+			end select;
 		end loop;
 
 	exception
