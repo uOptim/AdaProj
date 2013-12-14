@@ -1,7 +1,4 @@
-with Ada.Text_IO;
-
 package body Robot.Trajectory is
-	package IO renames Ada.Text_IO;
 
 	function X(T: Object) return Float is
 		(Path.X(T.Route, T.Segment, T.K));

@@ -1,5 +1,3 @@
-with Ada.Text_IO;
-
 package body Site.Places_Path is
 
 	function Open(From: In_Place; To: Out_Place) return Object is
