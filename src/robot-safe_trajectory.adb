@@ -30,15 +30,24 @@ package body Robot.Safe_Trajectory is
 		declare
 			Places: Traj.Path_Maker.Place_Name_Array := T.Places;
 		begin
-			for Seg in T.Freed+1 .. T.Segment loop
-				if not Traj.Path_Maker.Robot_Intersects(
-					Places(Seg),
-					Work_Site.Position'(Integer(T.X), Integer(T.Y))
-				) then
+			if T.Freed < T.Segment then
+				-- Make sure all points from previous segments are freed. This
+				-- caused problems when two points are too close to a Robot's
+				-- path.
+				for Seg in T.Freed+1 .. T.Segment-1 loop
 					Resources.Release(Places(Seg));
 					T.Freed := T.Freed + 1;
+				end loop;
+
+				-- Free the last point if far enough.
+				if not Traj.Path_Maker.Robot_Intersects(
+					Places(T.Segment),
+					Work_Site.Position'(Integer(T.X), Integer(T.Y))
+				) then
+					Resources.Release(Places(T.Segment));
+					T.Freed := T.Freed + 1;
 				end if;
-			end loop;
+			end if;
 
 			if T.Is_Done then
 				Resources.Release(Places(Places'Last));

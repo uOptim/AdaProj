@@ -40,11 +40,11 @@ package body Robot is
 				if (not T.Is_Done) then
 					T.Close;
 				end if;
+				IO.Put_Line("Robot" & Positive'Image(ID) & " got new task");
 				T.Open(From_Tmp, To_Tmp);
 				Work_Site.Traffic.Update_Position(
 					ID, Work_Site.Position'(Integer(T.X), Integer(T.Y))
 				);
-				IO.Put_Line("Robot" & Positive'Image(ID) & " got new task");
 			or
 				when not T.Is_Done => delay until Next_Tick;
 				Tick_Time := RT.Clock;
