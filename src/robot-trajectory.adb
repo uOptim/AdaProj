@@ -58,6 +58,7 @@ package body Robot.Trajectory is
 	procedure Close(T: in out Object) is
 	begin
 		T.Done := True;
+		Path_Maker.Close(T.PM);
 	end;
 
 	-- private functions and procedures
