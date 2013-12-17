@@ -8,7 +8,7 @@ with Ada.Text_IO;
 procedure Main is
 	package IO renames Ada.Text_IO;
 
-	package HexSite     is new Site(NPlaces => 6, NRobots => 6);
+	package HexSite     is new Site(NPlaces => 8, NRobots => 12);
 	package Bot_Mailbox is new MailBox(Message_Type => HexSite.Bot_ID);
 	package HexAgency   is new Agency(
 		Work_Site   => HexSite,

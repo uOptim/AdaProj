@@ -48,7 +48,7 @@ package body Robot is
 					);
 				end if;
 				IO.Put_Line("Robot" & Positive'Image(ID) & " got new task");
-				T.Open(From_Tmp, To_Tmp);
+				T.Open(From_Tmp, To_Tmp, 75.0);
 				Work_Site.Robot_Positions.Set(
 					ID, Work_Site.Position'(Integer(T.X), Integer(T.Y))
 				);
@@ -68,9 +68,6 @@ package body Robot is
 			or
 				when T.Is_Done => accept Shutdown;
 				IO.Put_Line("Robot" & Positive'Image(ID) & " shuting down");
-				if (not T.Is_Done) then
-					T.Close;
-				end if;
 				exit;
 			end select;
 		end loop;
