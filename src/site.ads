@@ -30,6 +30,17 @@ package Site is
 		entry Update_Position(ID: Bot_ID; P: Position);
 	end;
 
+
+	-- Position of our Robots
+	type RobotPositions is array(Bot_ID) of Position;
+	protected Robot_Positions is
+		procedure Set(ID: Bot_ID; P: Position);
+		function Get(ID: Bot_ID) return Position;
+	private
+		Positions: RobotPositions := (others => Position'(0, 0));
+	end;
+
+
 	function Next    (R: Ring_Place) return Ring_Place;
 	function Prev    (R: Ring_Place) return Ring_Place;
 	function Way_In  (R: Ring_Place) return In_Place;
@@ -69,9 +80,6 @@ private
 
 	-- places
 	Places: Places_Array;
-
-	-- Position of our Robots
-	type RobotPositions is array(Bot_ID) of Position;
 
 	procedure Init;
 	procedure Clear;

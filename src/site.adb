@@ -15,6 +15,16 @@ package body Site is
 
 	package RT renames Ada.Real_Time;
 
+	protected body Robot_Positions is
+		procedure Set(ID: Bot_ID; P: Position) is
+		begin
+			Positions(ID) := P;
+		end;
+
+		function Get(ID: Bot_ID) return Position is
+			(Positions(ID));
+	end;
+
 	--
 	-- Site area
 	--
@@ -39,18 +49,17 @@ package body Site is
 				accept Stop;
 				exit;
 			or
-				accept Update_Position(ID: Bot_ID; P: Position) do
-					Positions(ID) := P;
-				end;
-			or
 				delay until Next_Tick;
 				Clear;
 				Adagraph.Set_Immediate_Rendering(False);
 				declare
+					P: Position;
 					Color: Color_Type := Adagraph.Color_Type'First;
 				begin
 					Draw_Site;
-					for P of Positions loop
+					for ID in Bot_ID'Range loop
+						P := Robot_Positions.Get(ID);
+
 						loop -- choose color, not Black please.
 							if Color = Color_Type'Last then
 								Color := Color_Type'First;
@@ -59,8 +68,16 @@ package body Site is
 							end if;
 							exit when Color /= Black;
 						end loop;
+
+						--Ada.Text_IO.Put_Line(
+						--	Color_Type'Image(Color)
+						--	& Integer'Image(P.X)
+						--	& Integer'Image(P.Y)
+						--);
+
 						Draw_Robot(P, Color);
 					end loop;
+					--Ada.Text_IO.Put_Line("----------------------");
 				end;
 				Adagraph.Set_Immediate_Rendering(True);
 				Tick_Time := RT.Clock;
