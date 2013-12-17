@@ -7,15 +7,7 @@ use Ada.Exceptions;
 package body Agency is
 
 	task body Mission_Listener is
-		Done_Msg_Box: aliased Bot_Mailbox.Object(
-			Size => Work_Site.Bot_ID'Last
-		);
-
-		type Robot_Array is array(Work_Site.Bot_ID'Range)
-			of Robot_Type.Object(MBox => Done_Msg_Box'Access);
-
 		ID: Work_Site.Bot_ID;
-		Robot_Collection: Robot_Array;
 
 	begin
 		accept Start;
@@ -40,9 +32,6 @@ package body Agency is
 			else
 				if not Done_Msg_Box.Is_Empty then
 					Done_Msg_Box.Get(ID);
-					Ada.Text_IO.Put_Line(
-						"Giving new task to rbt" & Work_Site.Bot_ID'Image(ID)
-					);
 					-- give a new mission
 					Robot_Collection(ID).Go(
 						Rand_In.Random(Gen_In), Rand_Out.Random(Gen_Out)

@@ -42,7 +42,7 @@ package body Robot is
 				end if;
 				IO.Put_Line("Robot" & Positive'Image(ID) & " got new task");
 				T.Open(From_Tmp, To_Tmp);
-				Work_Site.Traffic.Update_Position(
+				Work_Site.Robot_Positions.Set(
 					ID, Work_Site.Position'(Integer(T.X), Integer(T.Y))
 				);
 			or
@@ -50,7 +50,7 @@ package body Robot is
 				Tick_Time := RT.Clock;
 				Next_Tick := Tick_Time + RT.Milliseconds(Integer(1000.0*dt));
 				T.Next(dt);
-				Work_Site.Traffic.Update_Position(
+				Work_Site.Robot_Positions.Set(
 					ID, Work_Site.Position'(Integer(T.X), Integer(T.Y))
 				);
 				if T.Is_Done then

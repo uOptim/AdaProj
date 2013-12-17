@@ -27,4 +27,13 @@ private
 		Mailbox_Pkg => Bot_Mailbox
 	);
 
+	Done_Msg_Box: aliased Bot_Mailbox.Object(
+		Size => Work_Site.Bot_ID'Last
+	);
+
+	type Robot_Array is array(Work_Site.Bot_ID'Range)
+		of Robot_Type.Object(MBox => Done_Msg_Box'Access);
+
+	Robot_Collection: Robot_Array;
+
 end Agency;
