@@ -23,11 +23,14 @@ package body Robot is
 		From_Tmp: Work_Site.In_Place;
 		To_Tmp:   Work_Site.Out_Place;
 	begin
-		ID_Distributor.Get_ID(ID);
-		IO.Put_Line("I am robot number" & Positive'Image(ID));
 
 		Tick_Time := RT.Clock;
 		Next_Tick := Tick_Time + RT.Milliseconds(Integer(1000.0*dt));
+
+		accept start(I: Work_Site.Bot_ID) do
+			ID := I;
+		end;
+		IO.Put_Line("I am robot number" & Positive'Image(ID));
 
 		loop
 			select
@@ -39,6 +42,10 @@ package body Robot is
 				end;
 				if (not T.Is_Done) then
 					T.Close;
+					IO.Put_Line(
+						"Robot" & Positive'Image(ID)
+						& " got new task when previous one wasn't done!"
+					);
 				end if;
 				IO.Put_Line("Robot" & Positive'Image(ID) & " got new task");
 				T.Open(From_Tmp, To_Tmp);
@@ -59,7 +66,7 @@ package body Robot is
 					MBox.Put(ID);
 				end if;
 			or
-				accept Shutdown;
+				when T.Is_Done => accept Shutdown;
 				IO.Put_Line("Robot" & Positive'Image(ID) & " shuting down");
 				if (not T.Is_Done) then
 					T.Close;
@@ -73,16 +80,5 @@ package body Robot is
 			Ada.Text_IO.Put("Robot" & Work_Site.Bot_ID'Image(ID) & " raised: ");
 			Ada.Text_IO.Put_Line(Exception_Information(Error));
 	end;
-
-
-	protected body ID_Distributor is
-		procedure Get_ID (Rbt_ID: out Work_Site.Bot_ID) is
-		begin
-			-- Will raise range exception if the work site can't handle more bots
-			-- which is fine.
-			ID := ID + 1;
-			Rbt_ID := ID;
-		end;
-	end ID_Distributor;
 
 end;

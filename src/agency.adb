@@ -13,8 +13,9 @@ package body Agency is
 		accept Start;
 
 		-- give a mission to all bots
-		for Rbt of Robot_Collection loop
-			Rbt.Go(Rand_In.Random(Gen_In), Rand_Out.Random(Gen_Out));
+		for ID in Robot_Collection'Range loop
+			Robot_Collection(ID).Start(ID);
+			Robot_Collection(ID).Go(Rand_In.Random(Gen_In), Rand_Out.Random(Gen_Out));
 		end loop;
 
 		-- listen signals and wait for free bots
