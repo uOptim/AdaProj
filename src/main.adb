@@ -3,6 +3,7 @@ with Agency;
 with MailBox;
 with Site.Places_Path;
 
+with Adagraph;
 with Ada.Text_IO;
 
 procedure Main is
@@ -15,11 +16,13 @@ procedure Main is
 		Bot_Mailbox => Bot_Mailbox
 	);
 
+	K: Character;
 begin
 	HexSite.Traffic.Start;
 	HexAgency.Mission_Listener.Start;
 
-	delay 20.0;
+	--delay 20.0;
+	K := Adagraph.Get_Key;
 
 	HexAgency.Mission_Listener.Quit;
 	HexSite.Traffic.Stop;
