@@ -49,8 +49,8 @@ package body Site is
 				exit;
 			or
 				delay until Next_Tick;
-				Clear;
 				Adagraph.Set_Immediate_Rendering(False);
+				Clear;
 				declare
 					P: Position;
 					Color: Color_Type := Adagraph.Color_Type'First;

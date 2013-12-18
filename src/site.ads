@@ -27,9 +27,7 @@ package Site is
 	task Traffic is
 		entry Stop;
 		entry Start;
-		entry Update_Position(ID: Bot_ID; P: Position);
 	end;
-
 
 	-- Position of our Robots
 	type RobotPositions is array(Bot_ID) of Position;
